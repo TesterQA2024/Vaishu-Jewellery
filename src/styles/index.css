@@ -2211,5 +2211,198 @@ a {
   }
 }
 
+/* ==========================================================================
+   Luxury Native Mobile Bottom Navigation Bar
+   ========================================================================== */
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* Offset content above the bottom nav bar */
+  body {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .mobile-bottom-nav {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    background: rgba(14, 12, 18, 0.94);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid rgba(212, 175, 55, 0.35);
+    box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.6);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  [data-theme="light"] .mobile-bottom-nav {
+    background: rgba(255, 255, 255, 0.96);
+    border-top-color: rgba(184, 134, 11, 0.28);
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.07);
+  }
+
+  .mobile-bottom-nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 58px;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 0.5rem;
+  }
+
+  .bottom-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    padding: 6px 0;
+    border-radius: 12px;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  .bottom-nav-item .bottom-nav-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .bottom-nav-item:active {
+    transform: scale(0.92);
+  }
+
+  .bottom-nav-item.active {
+    color: var(--gold-bright);
+  }
+
+  .bottom-nav-item.active .bottom-nav-icon {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.6));
+  }
+
+  .bottom-nav-item.active .bottom-nav-label {
+    font-weight: 700;
+    color: var(--gold-bright);
+  }
+
+  [data-theme="light"] .bottom-nav-item.active {
+    color: var(--gold-dark);
+  }
+
+  [data-theme="light"] .bottom-nav-item.active .bottom-nav-label {
+    color: var(--gold-dark);
+  }
+
+  .bottom-nav-badge {
+    position: absolute;
+    top: -4px;
+    right: -8px;
+    background: var(--gold-gradient);
+    color: #000;
+    font-size: 0.62rem;
+    font-weight: 800;
+    min-width: 17px;
+    height: 17px;
+    border-radius: 99px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  }
+
+  /* Mobile Ticker Bar Native Feel */
+  .ticker-bar {
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  .ticker-bar::-webkit-scrollbar {
+    display: none;
+  }
+  .ticker-items {
+    display: flex;
+    gap: 1rem;
+    animation: none;
+  }
+  .ticker-item {
+    font-size: 0.72rem;
+  }
+  .ticker-extras {
+    display: none;
+  }
+
+  /* Mobile Touch-Friendly Card Polish */
+  .product-card {
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  
+  .product-card:active {
+    transform: scale(0.985);
+  }
+
+  .btn-wishlist {
+    width: 32px;
+    height: 32px;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+    border-radius: 50%;
+  }
+
+  /* Toast Notification mobile positioning */
+  .toast-container {
+    bottom: 74px !important;
+    left: 1rem !important;
+    right: 1rem !important;
+  }
+
+  /* Mobile Category Pills */
+  .category-pill {
+    font-size: 0.78rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 99px;
+    white-space: nowrap;
+  }
+
+  /* Mobile Header Logo Center Polish */
+  .navbar-inner {
+    padding: 0 0.5rem;
+  }
+
+  .nav-signin-btn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.78rem;
+  }
+
+  .theme-toggle-btn {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.78rem;
+  }
+  .theme-toggle-btn .theme-text {
+    display: none;
+  }
+}
+
+
 
 

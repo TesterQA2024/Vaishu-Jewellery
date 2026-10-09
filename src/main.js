@@ -11,6 +11,7 @@ import { renderCartDrawer } from './components/CartDrawer';
 import { openQuickViewModal } from './components/QuickViewModal';
 import { openAuthModal } from './components/AuthModal';
 import { playRoyalIntro } from './components/RoyalIntro';
+import { renderMobileBottomNav } from './components/MobileBottomNav';
 
 // Pages
 import { renderHomePage } from './pages/HomePage';
@@ -39,6 +40,9 @@ function initApp() {
 
   // Mount Cart Drawer
   cartDrawerController = renderCartDrawer();
+
+  // Mount Mobile App Bottom Navigation Bar
+  renderMobileBottomNav(() => cartDrawerController?.open());
 
   // Listen to Firebase Auth state
   subscribeToAuth((user) => {
