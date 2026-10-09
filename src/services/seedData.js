@@ -91,9 +91,10 @@ export const INITIAL_PRODUCTS = [
     isBestseller: true,
     rating: 4.9,
     reviewsCount: 31,
-    image: 'https://images.unsplash.com/photo-1611591475102-468ae3901b0f?auto=format&fit=crop&w=900&q=80',
+    image: 'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=900&q=80',
     gallery: [
-      'https://images.unsplash.com/photo-1611591475102-468ae3901b0f?auto=format&fit=crop&w=900&q=80'
+      'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1598560917505-59a3ad559071?auto=format&fit=crop&w=900&q=80'
     ],
     description: 'Imposing regal Kada pair featuring traditional nakshi carving with temple floral artwork, antique vintage patina finish, and secure screw clasp closure.',
     purityCertificate: 'BIS Hallmarked 916 Gold with Unique HUID',
@@ -309,7 +310,7 @@ export const INITIAL_COLLECTIONS = [
     name: 'Antique Nakshi Temple Gold',
     slug: 'temple-gold',
     description: 'Sacred deity carvings and vintage oxidized finish heirloom ornaments.',
-    banner: 'https://images.unsplash.com/photo-1611591475102-468ae3901b0f?auto=format&fit=crop&w=1200&q=80',
+    banner: 'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=1200&q=80',
     itemCount: 1,
     featured: false,
     active: true

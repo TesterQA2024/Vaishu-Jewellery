@@ -51,7 +51,32 @@ const KEYS = {
 function getLocalData(key, fallback) {
   try {
     const raw = localStorage.getItem(key);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const data = JSON.parse(raw);
+      if (Array.isArray(data)) {
+        let changed = false;
+        data.forEach(item => {
+          if (item && item.image && typeof item.image === 'string' && item.image.includes('1611591475102')) {
+            item.image = 'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=900&q=80';
+            if (item.gallery) {
+              item.gallery = [
+                'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=900&q=80',
+                'https://images.unsplash.com/photo-1598560917505-59a3ad559071?auto=format&fit=crop&w=900&q=80'
+              ];
+            }
+            changed = true;
+          }
+          if (item && item.banner && typeof item.banner === 'string' && item.banner.includes('1611591475102')) {
+            item.banner = 'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=1200&q=80';
+            changed = true;
+          }
+        });
+        if (changed) {
+          localStorage.setItem(key, JSON.stringify(data));
+        }
+      }
+      return data;
+    }
   } catch (e) {}
   localStorage.setItem(key, JSON.stringify(fallback));
   return fallback;

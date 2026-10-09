@@ -30,7 +30,7 @@ export function openQuickViewModal(product) {
           <!-- Product Image -->
           <div>
             <div style="border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-gold); background: #181820; aspect-ratio: 1;">
-              <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;" />
+              <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=900&q=80'" />
             </div>
             <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: center; font-size: 0.8rem; color: var(--gold-bright);">
               <span>🏅 ${product.purityCertificate || 'BIS 916 Hallmarked with HUID'}</span>

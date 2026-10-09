@@ -15,7 +15,7 @@ export function renderProductCard(product) {
   return `
     <div class="product-card" data-product-id="${product.id}">
       <div class="product-img-wrapper">
-        <img src="${product.image}" alt="${product.name}" loading="lazy" />
+        <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=900&q=80'" />
         
         <!-- Badges -->
         <div class="product-badges">

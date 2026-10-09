@@ -10,6 +10,7 @@ import { renderFooter } from './components/Footer';
 import { renderCartDrawer } from './components/CartDrawer';
 import { openQuickViewModal } from './components/QuickViewModal';
 import { openAuthModal } from './components/AuthModal';
+import { playRoyalIntro } from './components/RoyalIntro';
 
 // Pages
 import { renderHomePage } from './pages/HomePage';
@@ -52,6 +53,9 @@ function initApp() {
   updateNavbar();
   renderFooterView();
   handleRoute();
+
+  // Launch Royal Grand Welcome & Countdown Experience
+  playRoyalIntro();
 }
 
 function updateNavbar() {
@@ -134,4 +138,8 @@ async function handleRoute() {
 }
 
 // Start application
-document.addEventListener('DOMContentLoaded', initApp);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}

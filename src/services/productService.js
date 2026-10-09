@@ -27,7 +27,27 @@ const LOCAL_RATES_KEY = 'vaishu_jewellery_live_rates_v1';
 function getLocalProducts() {
   try {
     const raw = localStorage.getItem(LOCAL_PRODUCTS_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const list = JSON.parse(raw);
+      // Auto-migrate any stale broken images
+      let changed = false;
+      list.forEach(p => {
+        if (p.image && p.image.includes('1611591475102')) {
+          p.image = 'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=900&q=80';
+          if (p.gallery) {
+            p.gallery = [
+              'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=900&q=80',
+              'https://images.unsplash.com/photo-1598560917505-59a3ad559071?auto=format&fit=crop&w=900&q=80'
+            ];
+          }
+          changed = true;
+        }
+      });
+      if (changed) {
+        localStorage.setItem(LOCAL_PRODUCTS_KEY, JSON.stringify(list));
+      }
+      return list;
+    }
   } catch (e) {}
   localStorage.setItem(LOCAL_PRODUCTS_KEY, JSON.stringify(INITIAL_PRODUCTS));
   return INITIAL_PRODUCTS;

@@ -1147,61 +1147,283 @@ a {
 }
 
 @media (max-width: 768px) {
+  /* Container & Global Base */
   .container {
-    padding: 0 1rem;
+    padding: 0 0.85rem;
   }
+  
+  /* Navbar & Header */
   .navbar-inner {
-    height: 64px;
+    height: 58px;
   }
   .brand-icon {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
   }
   .brand-name {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
   }
   .brand-tagline {
-    font-size: 0.5rem;
+    font-size: 0.48rem;
   }
   .nav-actions {
-    gap: 0.4rem;
+    gap: 0.3rem;
   }
   .btn-icon {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
   }
+  
+  /* Ticker Bar */
+  .ticker-bar {
+    font-size: 0.72rem;
+    padding: 0.3rem 0.5rem;
+  }
+
+  /* Hero Section */
   .hero-section {
     min-height: auto;
-    padding: 2.5rem 0;
+    padding: 2rem 0;
   }
   .hero-title {
-    font-size: clamp(2rem, 6vw, 2.8rem);
+    font-size: clamp(1.75rem, 6.5vw, 2.4rem);
+    line-height: 1.25;
+    margin-bottom: 0.85rem;
+  }
+  .hero-desc {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    padding: 0.75rem 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .hero-stat-value {
+    font-size: 1.3rem;
+  }
+  .hero-stat-label {
+    font-size: 0.65rem;
+  }
+  .hero-image-card {
+    max-height: 300px;
+    margin-top: 1.5rem;
   }
   .hero-image-card img {
-    height: 360px;
+    height: 280px;
   }
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+  .hero-floating-seal {
+    bottom: 12px;
+    left: 12px;
+    padding: 0.4rem 0.75rem;
   }
+
+  /* Category Strip */
+  .category-pill-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .category-pill-grid::-webkit-scrollbar {
+    display: none;
+  }
+  .category-pill {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  /* Product Cards 2-Column Mobile Grid */
   .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.65rem;
+  }
+  .product-img-wrapper {
+    aspect-ratio: 1;
   }
   .product-card-body {
-    padding: 0.9rem;
+    padding: 0.75rem 0.6rem;
+  }
+  .product-card-category {
+    font-size: 0.68rem;
   }
   .product-card-title {
-    font-size: 0.9rem;
+    font-size: 0.82rem;
+    height: 2.3em;
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+  }
+  .product-card-meta {
+    font-size: 0.7rem;
+    margin-bottom: 0.4rem;
   }
   .product-price {
-    font-size: 1.15rem;
+    font-size: 1rem;
+  }
+  .product-original-price {
+    font-size: 0.75rem;
   }
   .product-card-actions {
     grid-template-columns: 1fr;
+    margin-top: 0.5rem;
+  }
+  .btn-add-cart {
+    padding: 0.45rem 0.5rem;
+    font-size: 0.78rem;
   }
   .btn-quick-view {
     display: none;
+  }
+  .badge-tag {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.4rem;
+  }
+
+  /* Luxury Calculator Device Mobile Tweaks */
+  .luxury-calc-device {
+    padding: 1.15rem 0.85rem;
+    border-radius: 18px;
+  }
+  .calc-brand-stamp {
+    font-size: 0.78rem;
+  }
+  .calc-solar-strip {
+    font-size: 0.62rem;
+    padding: 0.2rem 0.5rem;
+  }
+  .calc-solar-cell {
+    width: 5px;
+    height: 10px;
+  }
+  .calc-lcd-screen {
+    padding: 1rem 0.85rem;
+    border-radius: 12px;
+  }
+  .calc-equation-line {
+    font-size: 0.72rem;
+  }
+  .calc-grand-value {
+    font-size: 1.95rem;
+  }
+  .calc-breakdown-chips {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.4rem;
+  }
+  .calc-chip {
+    padding: 0.3rem 0.5rem;
+  }
+  .calc-chip-label {
+    font-size: 0.6rem;
+  }
+  .calc-chip-val {
+    font-size: 0.85rem;
+  }
+  .calc-purity-buttons {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.35rem;
+  }
+  .calc-btn-purity {
+    padding: 0.45rem 0.35rem;
+    font-size: 0.74rem;
+  }
+  .calc-btn-purity .sub-rate {
+    font-size: 0.62rem;
+  }
+  .calc-weight-panel {
+    padding: 0.85rem;
+    border-radius: 10px;
+  }
+  .calc-step-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+  }
+  .calc-number-input {
+    font-size: 1.2rem;
+    padding: 0.4rem;
+  }
+  .calc-btn-preset {
+    padding: 0.25rem 0.45rem;
+    font-size: 0.68rem;
+  }
+  .calc-numpad-container {
+    gap: 0.35rem;
+  }
+  .calc-key {
+    padding: 0.55rem 0;
+    font-size: 0.95rem;
+    border-radius: 7px;
+  }
+
+  /* Bridal Spotlight Section Mobile */
+  #bridal-section .container > div {
+    grid-template-columns: 1fr !important;
+  }
+  #bridal-section div[style*="padding: 4rem 3rem"] {
+    padding: 2.25rem 1.25rem !important;
+  }
+  #bridal-section div[style*="min-height: 380px"] {
+    min-height: 240px !important;
+  }
+
+  /* Footer Mobile */
+  .footer {
+    padding: 3rem 0 1.5rem;
+    margin-top: 3rem;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  /* Cart Drawer Mobile (Full-Screen Native Feel) */
+  .cart-drawer {
+    width: 100vw;
+    max-width: 100vw;
+  }
+
+  /* Modal Dialog Mobile */
+  .modal-dialog {
+    width: 95vw;
+    max-width: 95vw;
+    margin: 1rem auto;
+    max-height: 90vh;
+    border-radius: 14px;
+    padding: 1.25rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra Compact Small Screens (<480px) */
+  .hero-title {
+    font-size: 1.7rem;
+  }
+  .brand-name {
+    font-size: 0.95rem;
+  }
+  .product-price {
+    font-size: 0.95rem;
+  }
+  .calc-grand-value {
+    font-size: 1.7rem;
+  }
+  .calc-purity-buttons {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -1354,4 +1576,640 @@ a {
 [data-theme="light"] .admin-table tr:hover td {
   background: rgba(184, 134, 11, 0.04);
 }
+
+/* ==========================================================================
+   Royal Vaishu Luxury Gold Calculator Device
+   ========================================================================== */
+.luxury-calc-device {
+  max-width: 860px;
+  margin: 0 auto;
+  background: linear-gradient(145deg, #18171d 0%, #0d0c10 100%);
+  border: 2px solid var(--border-gold);
+  border-radius: 28px;
+  padding: 2.25rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(212, 175, 55, 0.4), inset 0 -2px 0 rgba(0,0,0,0.8);
+  position: relative;
+  font-family: var(--font-sans);
+}
+
+.calc-device-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.calc-brand-stamp {
+  font-family: var(--font-serif);
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  font-size: 0.95rem;
+  color: var(--gold-bright);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.calc-solar-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #09090c;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  color: var(--gold-primary);
+}
+
+.calc-solar-cells {
+  display: flex;
+  gap: 2px;
+}
+
+.calc-solar-cell {
+  width: 7px;
+  height: 14px;
+  background: linear-gradient(180deg, #3d2f0f 0%, #171103 100%);
+  border: 0.5px solid rgba(212, 175, 55, 0.5);
+  border-radius: 1px;
+}
+
+/* Digital Glowing LCD Screen */
+.calc-lcd-screen {
+  background: radial-gradient(circle at top right, #111a14 0%, #060907 100%);
+  border: 2px solid #203524;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.75rem;
+  box-shadow: inset 0 4px 15px rgba(0, 0, 0, 0.9), 0 0 20px rgba(16, 185, 129, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.calc-lcd-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(52, 211, 153, 0.4), transparent);
+}
+
+.calc-equation-line {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  color: #6ee7b7;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calc-grand-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border-bottom: 1px dashed rgba(52, 211, 153, 0.2);
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.calc-grand-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #9ca3af;
+}
+
+.calc-grand-value {
+  font-family: var(--font-serif);
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #34d399;
+  text-shadow: 0 0 15px rgba(52, 211, 153, 0.35);
+  line-height: 1;
+}
+
+.calc-breakdown-chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.75rem;
+}
+
+.calc-chip {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.4rem 0.65rem;
+  border-radius: 8px;
+}
+
+.calc-chip-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.calc-chip-val {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gold-bright);
+}
+
+/* Calculator Keypad Elements */
+.calc-keypad-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .calc-keypad-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.calc-section-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.calc-purity-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.calc-btn-purity {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  padding: 0.6rem 0.5rem;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.calc-btn-purity:hover {
+  border-color: var(--gold-primary);
+  background: rgba(212, 175, 55, 0.1);
+  transform: translateY(-2px);
+}
+
+.calc-btn-purity.active {
+  background: var(--gold-gradient);
+  color: #000;
+  border-color: var(--gold-bright);
+  box-shadow: var(--gold-glow);
+  font-weight: 700;
+}
+
+.calc-btn-purity .sub-rate {
+  font-size: 0.68rem;
+  opacity: 0.85;
+}
+
+/* Weight Controls & Steppers */
+.calc-weight-panel {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.calc-stepper-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.calc-step-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-gold);
+  color: var(--gold-bright);
+  font-size: 1.3rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.calc-step-btn:hover {
+  background: var(--gold-primary);
+  color: #000;
+  transform: scale(1.05);
+}
+
+.calc-number-input {
+  flex: 1;
+  background: #09090c;
+  border: 1px solid var(--border-gold);
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--gold-bright);
+  text-align: center;
+}
+
+.calc-preset-strip {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.calc-btn-preset {
+  background: var(--bg-surface);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.calc-btn-preset:hover {
+  border-color: var(--gold-primary);
+  color: var(--gold-bright);
+  background: rgba(212, 175, 55, 0.12);
+}
+
+/* Keypad Numpad Simulation */
+.calc-numpad-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.calc-key {
+  background: linear-gradient(180deg, #24222a 0%, #151419 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.75rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  box-shadow: 0 4px 0 #09080b, 0 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.calc-key:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #09080b;
+}
+
+.calc-key.key-fn {
+  background: linear-gradient(180deg, #382d1b 0%, #201a0e 100%);
+  color: var(--gold-bright);
+  border-color: var(--border-gold);
+}
+
+.calc-key.key-action {
+  background: var(--gold-gradient);
+  color: #000;
+  border-color: var(--gold-bright);
+  font-weight: 800;
+}
+
+[data-theme="light"] .luxury-calc-device {
+  background: linear-gradient(145deg, #FAF8F5 0%, #EFE9DE 100%);
+  border-color: #B8860B;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="light"] .calc-lcd-screen {
+  background: radial-gradient(circle at top right, #0F1C14 0%, #070F0A 100%);
+}
+
+[data-theme="light"] .calc-key {
+  background: linear-gradient(180deg, #FFFFFF 0%, #EAE4D9 100%);
+  color: #1a1a1a;
+  border-color: #D1C7B7;
+  box-shadow: 0 4px 0 #C4B9A7, 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================================================
+   Royal Vaishu Intro Countdown & Grand Celebration Experience
+   ========================================================================== */
+.royal-intro-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: radial-gradient(circle at 50% 35%, #181524 0%, #09080e 75%, #030305 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s, transform 0.6s ease;
+  overflow: hidden;
+}
+
+.royal-intro-backdrop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, rgba(212, 175, 55, 0.25), rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 80px 120px, rgba(255, 215, 0, 0.2), rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 220px 280px, rgba(245, 215, 127, 0.3), rgba(0,0,0,0));
+  background-size: 250px 250px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.royal-intro-backdrop.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(1.05);
+}
+
+.royal-intro-container {
+  max-width: 620px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  padding: 2.5rem 1.5rem;
+}
+
+.btn-skip-intro {
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: var(--gold-bright);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(8px);
+}
+
+.btn-skip-intro:hover {
+  background: var(--gold-primary);
+  color: #000;
+  box-shadow: var(--gold-glow);
+  transform: translateY(-1px);
+}
+
+.intro-phase {
+  display: none;
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.intro-phase.active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.intro-vault-emblem {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(20, 18, 28, 0.8) 100%);
+  border: 1.5px solid var(--gold-bright);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.35);
+  animation: floatEmblem 3s ease-in-out infinite alternate;
+}
+
+.intro-brand-subhead {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  color: var(--gold-bright);
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.intro-opening-label {
+  font-size: 0.88rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+/* 5 to 1 Countdown Circle & Ring */
+.intro-timer-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem auto 1.5rem;
+  background: radial-gradient(circle, #1c1827 0%, #0c0b11 90%);
+  border: 2px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 0 45px rgba(212, 175, 55, 0.2), inset 0 0 25px rgba(212, 175, 55, 0.15);
+}
+
+.intro-timer-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px dashed rgba(245, 215, 127, 0.6);
+  animation: rotateRing 8s linear infinite;
+}
+
+.intro-timer-number {
+  font-family: var(--font-serif);
+  font-size: 4.75rem;
+  font-weight: 900;
+  color: var(--gold-bright);
+  text-shadow: 0 0 30px rgba(245, 215, 127, 0.8), 0 0 60px rgba(212, 175, 55, 0.4);
+  line-height: 1;
+}
+
+.pulse-num {
+  animation: pulseCountdown 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes pulseCountdown {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes rotateRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes floatEmblem {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-8px) scale(1.03); }
+}
+
+.intro-purity-tagline {
+  font-size: 0.8rem;
+  color: var(--gold-primary);
+  letter-spacing: 0.1em;
+  opacity: 0.9;
+  margin-top: 1rem;
+}
+
+/* Phase 2: Celebration Reveal */
+.celebration-crown {
+  font-size: 3.8rem;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+  animation: floatCrown 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes floatCrown {
+  0% { transform: translateY(0) rotate(-3deg); }
+  100% { transform: translateY(-10px) rotate(3deg); }
+}
+
+.celebration-brand-name {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  margin: 0.25rem 0 0.5rem;
+  text-transform: uppercase;
+  text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+}
+
+.celebration-tagline {
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  color: var(--gold-bright);
+  margin-bottom: 1.75rem;
+  font-weight: 500;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.celebration-card {
+  background: rgba(22, 19, 31, 0.85);
+  border: 1px solid var(--border-gold);
+  border-radius: 20px;
+  padding: 1.75rem 2rem;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(212, 175, 55, 0.15);
+  width: 100%;
+}
+
+.celebration-badge {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--gold-bright);
+  margin-bottom: 0.65rem;
+}
+
+.celebration-desc {
+  font-size: 0.88rem;
+  color: #d1d5db;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.celebration-loader-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 0.6rem;
+}
+
+.celebration-loader-progress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #D4AF37, #FFD700, #FFF4D0);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
+  border-radius: 99px;
+  transition: width 5s linear;
+}
+
+.celebration-timer-text {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 640px) {
+  .celebration-brand-name {
+    font-size: 2.1rem;
+    letter-spacing: 0.1em;
+  }
+  .celebration-card {
+    padding: 1.25rem 1rem;
+  }
+  .celebration-crown {
+    font-size: 3rem;
+  }
+  .intro-timer-circle {
+    width: 125px;
+    height: 125px;
+  }
+  .intro-timer-number {
+    font-size: 3.8rem;
+  }
+}
+
+
 

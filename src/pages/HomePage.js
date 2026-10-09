@@ -210,52 +210,189 @@ export async function renderHomePage(container, onOpenQuickView) {
     });
   }
 
-  // 5. Live Gold Price Estimator
+  // 5. Live Gold Price Estimator (Authentic Luxury Calculator Device)
   if (calcSec.enabled !== false) {
     sections.push({
       id: 'calculator',
       order: calcSec.order ?? 5,
       html: `
-        <section id="gold-calculator-section" style="background: radial-gradient(circle at center, rgba(212, 175, 55, 0.08) 0%, var(--bg-surface) 70%); border: 1px solid var(--border-gold); border-radius: var(--radius-lg); margin: 2rem auto; max-width: 1200px; padding: 3.5rem 2rem;">
-          <div style="max-width: 800px; margin: 0 auto;">
-            <div style="text-align: center; margin-bottom: 2rem;">
-              <span class="ticker-badge" style="font-size: 0.75rem; padding: 0.2rem 0.6rem;">${calcSec.badgeText || 'TRANSPARENCY GUARANTEE'}</span>
-              <h2 style="font-size: 2rem; margin: 0.5rem 0;">${calcSec.heading || 'Live Gold & Jewellery Price Estimator'}</h2>
-              <p style="color: var(--text-muted); font-size: 0.9rem;">${calcSec.subheading || 'Calculate exact price based on today\'s official bullion rate, gold weight & making charges with 0% hidden fees.'}</p>
+        <section id="gold-calculator-section" style="padding: 4rem 0 5rem; background: radial-gradient(circle at center, rgba(212, 175, 55, 0.09) 0%, var(--bg-main) 75%); border-top: 1px solid var(--border-gold); border-bottom: 1px solid var(--border-gold);">
+          <div class="container">
+            <div style="text-align: center; max-width: 680px; margin: 0 auto 2.5rem;">
+              <span class="ticker-badge" style="font-size: 0.75rem; padding: 0.25rem 0.75rem;">${calcSec.badgeText || 'TRANSPARENCY GUARANTEE'}</span>
+              <h2 style="font-size: 2.2rem; margin: 0.6rem 0 0.5rem 0;" class="text-gold-gradient">${calcSec.heading || 'Live Gold & Jewellery Price Estimator'}</h2>
+              <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.5;">${calcSec.subheading || 'Calculate exact price based on today\'s official bullion rate, gold weight & making charges with 0% hidden fees.'}</p>
             </div>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; background: var(--bg-main); padding: 2rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin-bottom: 2rem;">
-              <div class="form-group" style="margin: 0;">
-                <label class="form-label">Metal Purity</label>
-                <select class="form-select" id="calc-karat">
-                  <option value="22K (916 BIS)">22K Gold (91.6% Pure) - ₹${liveRates.gold22k}/g</option>
-                  <option value="24K (999 Pure)">24K Gold (99.9% Pure) - ₹${liveRates.gold24k}/g</option>
-                  <option value="18K (750 BIS)">18K Gold (75% Pure) - ₹${liveRates.gold18k}/g</option>
-                  <option value="Platinum Pt950">Platinum Pt 950 - ₹${liveRates.platinum}/g</option>
-                  <option value="Silver 999">Silver 999 - ₹${liveRates.silver}/g</option>
-                </select>
-              </div>
-
-              <div class="form-group" style="margin: 0;">
-                <label class="form-label">Gold Weight (in Grams)</label>
-                <input type="number" class="form-input" id="calc-weight" value="25" min="1" max="1000" step="0.5" />
-              </div>
-
-              <div class="form-group" style="margin: 0;">
-                <label class="form-label">Making Charge (%)</label>
-                <input type="number" class="form-input" id="calc-making" value="10" min="3" max="30" step="0.5" />
-              </div>
-            </div>
-
-            <!-- Calculated Outcome -->
-            <div id="calc-output" style="background: var(--bg-surface-elevated); border: 1px solid var(--border-gold); border-radius: var(--radius-md); padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
-              <div>
-                <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Estimated Value (Metal + Making + 3% GST)</div>
-                <div id="calc-result-price" style="font-family: var(--font-serif); font-size: 2.2rem; font-weight: 900; color: var(--gold-bright);">
-                  --
+            <!-- Authentic Luxury Calculator Chassis -->
+            <div class="luxury-calc-device" id="vaishu-calc-device">
+              <!-- Top Device Brand & Solar Bar -->
+              <div class="calc-device-header">
+                <div class="calc-brand-stamp">
+                  <span>👑</span>
+                  <span>VAISHU ROYALE CALC-916</span>
+                </div>
+                <div class="calc-solar-strip">
+                  <div class="calc-solar-cells">
+                    <span class="calc-solar-cell"></span>
+                    <span class="calc-solar-cell"></span>
+                    <span class="calc-solar-cell"></span>
+                    <span class="calc-solar-cell"></span>
+                    <span class="calc-solar-cell"></span>
+                    <span class="calc-solar-cell"></span>
+                  </div>
+                  <span>LIVE MCX BULLION FEED</span>
                 </div>
               </div>
-              <a href="#shop" class="btn btn-gold" style="padding: 0.75rem 1.5rem;">Browse Matching Jewellery →</a>
+
+              <!-- High-Resolution Digital Glowing LCD Screen -->
+              <div class="calc-lcd-screen">
+                <div class="calc-equation-line">
+                  <span id="calc-display-equation">25.0g × ₹${liveRates.gold22k}/g (22K) + 12% Making + 3% GST</span>
+                  <span style="font-size: 0.72rem; color: #34d399; font-weight: 700;">● LIVE RATE</span>
+                </div>
+
+                <div class="calc-grand-display">
+                  <div class="calc-grand-label">Grand Total (Net Bullion + Making + 3% GST)</div>
+                  <div class="calc-grand-value" id="calc-result-price">--</div>
+                </div>
+
+                <div class="calc-breakdown-chips">
+                  <div class="calc-chip">
+                    <div class="calc-chip-label">Raw Metal Cost</div>
+                    <div class="calc-chip-val" id="chip-metal-cost">₹0</div>
+                  </div>
+                  <div class="calc-chip">
+                    <div class="calc-chip-label">Making Charges</div>
+                    <div class="calc-chip-val" id="chip-making-cost">₹0</div>
+                  </div>
+                  <div class="calc-chip">
+                    <div class="calc-chip-label">3% Govt GST</div>
+                    <div class="calc-chip-val" id="chip-gst-cost">₹0</div>
+                  </div>
+                  <div class="calc-chip">
+                    <div class="calc-chip-label">Live Bullion Rate</div>
+                    <div class="calc-chip-val" id="chip-rate-cost">₹${liveRates.gold22k}/g</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Calculator Keypad Controls -->
+              <div class="calc-keypad-grid">
+                <!-- Left Panel: Purity & Weight Controls -->
+                <div>
+                  <!-- 1. Metal Purity Keys -->
+                  <div class="calc-section-label">
+                    <span>💎</span> 1. Select Precious Metal & Karat
+                  </div>
+                  <div class="calc-purity-buttons" id="calc-purity-btn-group">
+                    <button type="button" class="calc-btn-purity active" data-karat="22K (916 BIS)" data-rate="${liveRates.gold22k}">
+                      <span>22K Gold (916)</span>
+                      <span class="sub-rate">₹${liveRates.gold22k}/g</span>
+                    </button>
+                    <button type="button" class="calc-btn-purity" data-karat="24K (999 Pure)" data-rate="${liveRates.gold24k}">
+                      <span>24K Pure Gold</span>
+                      <span class="sub-rate">₹${liveRates.gold24k}/g</span>
+                    </button>
+                    <button type="button" class="calc-btn-purity" data-karat="18K (750 BIS)" data-rate="${liveRates.gold18k}">
+                      <span>18K Diamond</span>
+                      <span class="sub-rate">₹${liveRates.gold18k}/g</span>
+                    </button>
+                    <button type="button" class="calc-btn-purity" data-karat="Platinum Pt950" data-rate="${liveRates.platinum}">
+                      <span>Pt 950 Platinum</span>
+                      <span class="sub-rate">₹${liveRates.platinum}/g</span>
+                    </button>
+                    <button type="button" class="calc-btn-purity" data-karat="Silver 999" data-rate="${liveRates.silver}">
+                      <span>Silver 999</span>
+                      <span class="sub-rate">₹${liveRates.silver}/g</span>
+                    </button>
+                  </div>
+
+                  <!-- 2. Weight in Grams Stepper & Presets -->
+                  <div class="calc-weight-panel">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                      <div class="calc-section-label" style="margin: 0;">
+                        <span>⚖️</span> Gold Weight (Grams)
+                      </div>
+                      <span style="font-size: 0.75rem; color: var(--text-muted);" id="lbl-target-input">Target: Weight</span>
+                    </div>
+
+                    <div class="calc-stepper-row">
+                      <button type="button" class="calc-step-btn" id="btn-weight-minus">−</button>
+                      <input type="number" class="calc-number-input" id="calc-weight" value="25" min="0.1" max="1000" step="0.5" />
+                      <button type="button" class="calc-step-btn" id="btn-weight-plus">+</button>
+                    </div>
+
+                    <div class="calc-preset-strip">
+                      <button type="button" class="calc-btn-preset" data-add-weight="1">+1g</button>
+                      <button type="button" class="calc-btn-preset" data-add-weight="5">+5g</button>
+                      <button type="button" class="calc-btn-preset" data-add-weight="10">+10g</button>
+                      <button type="button" class="calc-btn-preset" data-add-weight="25">+25g</button>
+                      <button type="button" class="calc-btn-preset" data-add-weight="50">+50g</button>
+                      <button type="button" class="calc-btn-preset" data-set-weight="100">100g (Bar)</button>
+                      <button type="button" class="calc-btn-preset" style="color: #ff6b6b;" id="btn-calc-ac">AC</button>
+                    </div>
+                  </div>
+
+                  <!-- 3. Making Charges Presets -->
+                  <div>
+                    <div class="calc-section-label">
+                      <span>⚙️</span> Making Charges (%)
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+                      <input type="number" class="form-input" id="calc-making" value="12" min="2" max="35" step="0.5" style="width: 90px; text-align: center; font-weight: 700;" />
+                      <div class="calc-preset-strip" style="flex: 1;">
+                        <button type="button" class="calc-btn-preset" data-set-making="6">6% (Coins)</button>
+                        <button type="button" class="calc-btn-preset" data-set-making="10">10% (Chains)</button>
+                        <button type="button" class="calc-btn-preset" data-set-making="14">14% (Bridal)</button>
+                        <button type="button" class="calc-btn-preset" data-set-making="18">18% (Temple)</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Right Panel: Physical Calculator Numpad & Quick Actions -->
+                <div style="display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <div class="calc-section-label">
+                      <span>🔢</span> Interactive Keypad Entry
+                    </div>
+
+                    <div class="calc-numpad-container">
+                      <button type="button" class="calc-key key-fn" data-numpad="C">C</button>
+                      <button type="button" class="calc-key key-fn" data-numpad="BACK">⌫</button>
+                      <button type="button" class="calc-key key-fn" id="btn-toggle-input-mode">SWITCH ⇄</button>
+                      <button type="button" class="calc-key key-action" id="btn-calc-compute">=</button>
+
+                      <button type="button" class="calc-key" data-numpad="7">7</button>
+                      <button type="button" class="calc-key" data-numpad="8">8</button>
+                      <button type="button" class="calc-key" data-numpad="9">9</button>
+                      <button type="button" class="calc-key key-fn" data-numpad="HALF">.5</button>
+
+                      <button type="button" class="calc-key" data-numpad="4">4</button>
+                      <button type="button" class="calc-key" data-numpad="5">5</button>
+                      <button type="button" class="calc-key" data-numpad="6">6</button>
+                      <button type="button" class="calc-key key-fn" data-numpad="DOUBLE">00</button>
+
+                      <button type="button" class="calc-key" data-numpad="1">1</button>
+                      <button type="button" class="calc-key" data-numpad="2">2</button>
+                      <button type="button" class="calc-key" data-numpad="3">3</button>
+                      <button type="button" class="calc-key key-action" style="font-size: 0.9rem;" id="btn-calc-quote">📋 QUOTE</button>
+
+                      <button type="button" class="calc-key" data-numpad="0" style="grid-column: span 2;">0</button>
+                      <button type="button" class="calc-key" data-numpad=".">.</button>
+                      <button type="button" class="calc-key key-action" style="font-size: 0.9rem;" onclick="window.location.hash='#shop'">🛍️ SHOP</button>
+                    </div>
+                  </div>
+
+                  <!-- Bottom Quick Quote Link -->
+                  <div style="margin-top: 1.25rem; display: flex; gap: 0.75rem;">
+                    <a href="#shop" class="btn btn-gold" style="flex: 1; padding: 0.8rem; text-align: center; justify-content: center;">
+                      <span>Browse Matching Jewellery in Vault →</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -309,22 +446,168 @@ export async function renderHomePage(container, onOpenQuickView) {
     attachProductCardEvents(bestsellersGrid, allProducts, onOpenQuickView);
   }
 
-  // Calculator Logic if calculator section is rendered
-  const calcKarat = document.getElementById('calc-karat');
+  // =============================================================
+  // Interactive Luxury Calculator Logic & Event Attachments
+  // =============================================================
   const calcWeight = document.getElementById('calc-weight');
   const calcMaking = document.getElementById('calc-making');
   const calcResultPrice = document.getElementById('calc-result-price');
+  const calcDisplayEquation = document.getElementById('calc-display-equation');
+  const chipMetalCost = document.getElementById('chip-metal-cost');
+  const chipMakingCost = document.getElementById('chip-making-cost');
+  const chipGstCost = document.getElementById('chip-gst-cost');
+  const chipRateCost = document.getElementById('chip-rate-cost');
+  const purityButtons = document.querySelectorAll('.calc-btn-purity');
+  const lblTargetInput = document.getElementById('lbl-target-input');
 
-  if (calcKarat && calcWeight && calcMaking && calcResultPrice) {
+  let currentKarat = '22K (916 BIS)';
+  let activeInputTarget = 'weight'; // 'weight' | 'making'
+
+  if (calcWeight && calcMaking && calcResultPrice) {
     const updateCalculator = () => {
       const weight = parseFloat(calcWeight.value) || 0;
-      const karat = calcKarat.value;
       const making = parseFloat(calcMaking.value) || 0;
-      const breakdown = calculateItemBreakdown(weight, karat, making);
+      const breakdown = calculateItemBreakdown(weight, currentKarat, making);
+
       calcResultPrice.textContent = formatINR(breakdown.total);
+      if (chipMetalCost) chipMetalCost.textContent = formatINR(breakdown.rawMetalPrice);
+      if (chipMakingCost) chipMakingCost.textContent = formatINR(breakdown.makingCharges);
+      if (chipGstCost) chipGstCost.textContent = formatINR(breakdown.gst);
+      if (chipRateCost) chipRateCost.textContent = `₹${breakdown.baseRatePerGram}/g`;
+
+      if (calcDisplayEquation) {
+        calcDisplayEquation.textContent = `${weight.toFixed(1)}g × ₹${breakdown.baseRatePerGram}/g (${currentKarat.split(' ')[0]}) + ${making}% Making + 3% GST`;
+      }
     };
 
-    calcKarat.addEventListener('change', updateCalculator);
+    // Purity Button Selection
+    purityButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        purityButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentKarat = btn.getAttribute('data-karat') || '22K (916 BIS)';
+        updateCalculator();
+      });
+    });
+
+    // Steppers - / +
+    document.getElementById('btn-weight-minus')?.addEventListener('click', () => {
+      let w = parseFloat(calcWeight.value) || 0;
+      if (w > 0.5) {
+        calcWeight.value = (w - 0.5).toFixed(1);
+        updateCalculator();
+      }
+    });
+
+    document.getElementById('btn-weight-plus')?.addEventListener('click', () => {
+      let w = parseFloat(calcWeight.value) || 0;
+      calcWeight.value = (w + 0.5).toFixed(1);
+      updateCalculator();
+    });
+
+    // Weight Add Presets (+1g, +5g, etc.)
+    document.querySelectorAll('[data-add-weight]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const add = parseFloat(btn.getAttribute('data-add-weight')) || 0;
+        let w = parseFloat(calcWeight.value) || 0;
+        calcWeight.value = (w + add).toFixed(1);
+        updateCalculator();
+      });
+    });
+
+    // Weight Set Presets (100g)
+    document.querySelectorAll('[data-set-weight]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        calcWeight.value = btn.getAttribute('data-set-weight');
+        updateCalculator();
+      });
+    });
+
+    // Making Presets
+    document.querySelectorAll('[data-set-making]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        calcMaking.value = btn.getAttribute('data-set-making');
+        updateCalculator();
+      });
+    });
+
+    // AC (All Clear)
+    document.getElementById('btn-calc-ac')?.addEventListener('click', () => {
+      calcWeight.value = '0';
+      updateCalculator();
+    });
+
+    // Input Mode Switch
+    document.getElementById('btn-toggle-input-mode')?.addEventListener('click', () => {
+      activeInputTarget = activeInputTarget === 'weight' ? 'making' : 'weight';
+      if (lblTargetInput) {
+        lblTargetInput.textContent = `Target: ${activeInputTarget === 'weight' ? 'Weight (Grams)' : 'Making (%)'}`;
+      }
+      const targetEl = activeInputTarget === 'weight' ? calcWeight : calcMaking;
+      targetEl?.focus();
+    });
+
+    // Focus tracking
+    calcWeight.addEventListener('focus', () => {
+      activeInputTarget = 'weight';
+      if (lblTargetInput) lblTargetInput.textContent = 'Target: Weight (Grams)';
+    });
+
+    calcMaking.addEventListener('focus', () => {
+      activeInputTarget = 'making';
+      if (lblTargetInput) lblTargetInput.textContent = 'Target: Making (%)';
+    });
+
+    // Interactive Keypad Direct Numbers
+    document.querySelectorAll('[data-numpad]').forEach(keyBtn => {
+      keyBtn.addEventListener('click', () => {
+        const char = keyBtn.getAttribute('data-numpad');
+        const targetEl = activeInputTarget === 'weight' ? calcWeight : calcMaking;
+        if (!targetEl) return;
+
+        let val = targetEl.value;
+
+        if (char === 'C') {
+          targetEl.value = '0';
+        } else if (char === 'BACK') {
+          targetEl.value = val.length > 1 ? val.slice(0, -1) : '0';
+        } else if (char === 'HALF') {
+          let num = parseFloat(val) || 0;
+          targetEl.value = (Math.floor(num) + 0.5).toString();
+        } else if (char === 'DOUBLE') {
+          targetEl.value = val === '0' ? '0' : val + '00';
+        } else if (char === '.') {
+          if (!val.includes('.')) targetEl.value = val + '.';
+        } else {
+          // Number 0-9
+          if (val === '0') {
+            targetEl.value = char;
+          } else {
+            targetEl.value = val + char;
+          }
+        }
+        updateCalculator();
+      });
+    });
+
+    document.getElementById('btn-calc-compute')?.addEventListener('click', updateCalculator);
+
+    // Copy Quote Action
+    document.getElementById('btn-calc-quote')?.addEventListener('click', () => {
+      const weight = parseFloat(calcWeight.value) || 0;
+      const making = parseFloat(calcMaking.value) || 0;
+      const breakdown = calculateItemBreakdown(weight, currentKarat, making);
+      const quoteText = `👑 VAISHU JEWELLERY - Official Bullion Estimate Quote\n• Metal: ${currentKarat} @ ₹${breakdown.baseRatePerGram}/g\n• Weight: ${weight} grams\n• Metal Cost: ${formatINR(breakdown.rawMetalPrice)}\n• Making Charge (${making}%): ${formatINR(breakdown.makingCharges)}\n• 3% GST: ${formatINR(breakdown.gst)}\n------------------------\nESTIMATED GRAND TOTAL: ${formatINR(breakdown.total)}\n(Certified BIS 916 Hallmark / IGI Diamonds)`;
+
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(quoteText).then(() => {
+          alert('✓ Official Jewellery Estimate Quote copied to clipboard!\n\n' + quoteText);
+        });
+      } else {
+        alert(quoteText);
+      }
+    });
+
     calcWeight.addEventListener('input', updateCalculator);
     calcMaking.addEventListener('input', updateCalculator);
     updateCalculator();
