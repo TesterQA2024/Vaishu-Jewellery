@@ -15,29 +15,49 @@ export function renderNavbar(currentUser, onOpenAuthModal, onOpenCartDrawer, onN
   const currentTheme = getStoredTheme();
   const isLight = currentTheme === 'light';
 
+  const tickerItemsHtml = `
+    <div class="ticker-item">
+      <span class="ticker-badge"><span class="ticker-pulse-dot"></span>MCX LIVE</span>
+      <span>24K Gold: <strong>₹${rates.gold24k}/g</strong></span>
+    </div>
+    <span class="ticker-sep">✦</span>
+    <div class="ticker-item">
+      <span>22K (916 BIS): <strong>₹${rates.gold22k}/g</strong></span>
+    </div>
+    <span class="ticker-sep">✦</span>
+    <div class="ticker-item">
+      <span>18K Diamond: <strong>₹${rates.gold18k}/g</strong></span>
+    </div>
+    <span class="ticker-sep">✦</span>
+    <div class="ticker-item">
+      <span>Silver 999: <strong>₹${rates.silver}/g</strong></span>
+    </div>
+    <span class="ticker-sep">✦</span>
+    <div class="ticker-item">
+      <span>🛡️ 100% BIS Hallmarked</span>
+    </div>
+    <span class="ticker-sep">✦</span>
+    <div class="ticker-item">
+      <span>✨ Free Insured Shipping</span>
+    </div>
+    <span class="ticker-sep">✦</span>
+    <div class="ticker-item">
+      <span>💎 Certified Natural Solitaires</span>
+    </div>
+    <span class="ticker-sep">✦</span>
+  `;
+
   const html = `
-    <!-- Live Gold Rates Bullion Ticker -->
-    <div class="ticker-bar">
-      <div class="container ticker-content">
-        <div class="ticker-items">
-          <div class="ticker-item">
-            <span class="ticker-badge">MCX LIVE</span>
-            <span>24K Gold: <strong>₹${rates.gold24k}/g</strong></span>
-          </div>
-          <div class="ticker-item">
-            <span>22K (916 BIS): <strong>₹${rates.gold22k}/g</strong></span>
-          </div>
-          <div class="ticker-item">
-            <span>18K Diamond: <strong>₹${rates.gold18k}/g</strong></span>
-          </div>
-          <div class="ticker-item">
-            <span>Silver 999: <strong>₹${rates.silver}/g</strong></span>
-          </div>
+    <!-- Live Gold Rates Bullion Ticker Slider (Continuous Infinite Loop across all devices) -->
+    <div class="ticker-bar" id="mcx-ticker-bar" title="MCX Live Rates (Hover/Touch to Pause)">
+      <div class="ticker-slider-wrapper">
+        <div class="ticker-track">
+          ${tickerItemsHtml}
+          ${tickerItemsHtml}
         </div>
-        <div class="ticker-extras">
-          <span>🛡️ 100% BIS Hallmarked</span>
-          <span class="ticker-divider">|</span>
-          <a href="#admin" class="ticker-admin-link">👑 Admin Portal</a>
+        <div class="ticker-track" aria-hidden="true">
+          ${tickerItemsHtml}
+          ${tickerItemsHtml}
         </div>
       </div>
     </div>
@@ -65,6 +85,8 @@ export function renderNavbar(currentUser, onOpenAuthModal, onOpenCartDrawer, onN
           <li><a href="#" class="nav-link" data-route="home">Home</a></li>
           <li><a href="#shop" class="nav-link" data-route="shop">Collections</a></li>
           <li><a href="#bridal" class="nav-link" data-route="bridal">Bridal Lounge</a></li>
+          <li><a href="#digital-gold" class="nav-link" data-route="digital-gold" style="color: #34d399; font-weight: 700;">🪙 Digital Gold</a></li>
+          <li><a href="#gold-plan" class="nav-link" data-route="gold-plan" style="color: var(--gold-bright); font-weight: 700;">✨ Monthly Plan (11+1)</a></li>
           <li><a href="#rates" class="nav-link" data-route="rates">Gold Calculator</a></li>
           <li><a href="#orders" class="nav-link" data-route="orders">Track Order</a></li>
           <li><a href="#about" class="nav-link" data-route="about">Heritage</a></li>
@@ -114,11 +136,11 @@ export function renderNavbar(currentUser, onOpenAuthModal, onOpenCartDrawer, onN
               <div id="user-dropdown-menu" class="user-dropdown-menu">
                 <div style="padding: 0.6rem 1rem; border-bottom: 1px solid var(--border-subtle); font-size: 0.8rem; color: var(--text-muted);">
                   Signed in as<br><strong style="color: var(--gold-bright); word-break: break-all;">${currentUser.email}</strong>
-                  ${currentUser.role === 'admin' ? '<br><span class="badge-karat" style="font-size:0.65rem; padding:0.1rem 0.4rem; display:inline-block; margin-top:4px;">ADMIN</span>' : ''}
                 </div>
                 <a href="#orders" class="dropdown-item">📦 My Orders</a>
+                <a href="#digital-gold" class="dropdown-item" style="color: #34d399; font-weight: 600;">🪙 24K Digital Gold Vault</a>
+                <a href="#gold-plan" class="dropdown-item" style="color: var(--gold-bright); font-weight: 600;">👑 Monthly Purchase Plan (11+1)</a>
                 <a href="#wishlist" class="dropdown-item">💖 My Wishlist</a>
-                ${currentUser.role === 'admin' ? '<a href="#admin" class="dropdown-item" style="color: var(--gold-bright); font-weight:700;">⚙️ Admin Dashboard</a>' : ''}
                 <button id="nav-logout-btn" class="dropdown-item" style="width: 100%; text-align: left; background: none; border: none; color: #ff6b6b; cursor: pointer; border-top: 1px solid var(--border-subtle);">🚪 Sign Out</button>
               </div>
             </div>
@@ -165,11 +187,12 @@ export function renderNavbar(currentUser, onOpenAuthModal, onOpenCartDrawer, onN
             <li><a href="#" class="mobile-nav-link" data-close>🏠 Home</a></li>
             <li><a href="#shop" class="mobile-nav-link" data-close>💎 Royal Collections</a></li>
             <li><a href="#bridal" class="mobile-nav-link" data-close>👑 Maharani Bridal Lounge</a></li>
+            <li><a href="#digital-gold" class="mobile-nav-link" style="color: #34d399; font-weight: 700;" data-close>🪙 24K Digital Gold</a></li>
+            <li><a href="#gold-plan" class="mobile-nav-link" style="color: var(--gold-bright); font-weight: 700;" data-close>✨ Monthly Gold Plan (11+1)</a></li>
             <li><a href="#rates" class="mobile-nav-link" data-close>📈 Live Gold Calculator</a></li>
             <li><a href="#orders" class="mobile-nav-link" data-close>📦 Track Vault Orders</a></li>
             <li><a href="#wishlist" class="mobile-nav-link" data-close>💖 Saved Wishlist</a></li>
             <li><a href="#about" class="mobile-nav-link" data-close>🏅 Heritage & BIS Hallmark</a></li>
-            <li><a href="#admin" class="mobile-nav-link" style="color: var(--gold-bright); font-weight: 700;" data-close>⚙️ Admin Management Portal</a></li>
           </ul>
 
           <div style="margin-top: auto; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle);">
@@ -290,4 +313,15 @@ export function attachNavbarEvents(onOpenAuthModal, onOpenCartDrawer) {
       badge.style.display = count > 0 ? 'flex' : 'none';
     }
   });
+
+  // Ticker Slider Touch Interaction (Pause on tap/touch, resume smoothly)
+  const tickerWrapper = document.querySelector('.ticker-slider-wrapper');
+  if (tickerWrapper) {
+    tickerWrapper.addEventListener('touchstart', () => {
+      tickerWrapper.style.animationPlayState = 'paused';
+    }, { passive: true });
+    tickerWrapper.addEventListener('touchend', () => {
+      tickerWrapper.style.animationPlayState = 'running';
+    }, { passive: true });
+  }
 }

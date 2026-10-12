@@ -51,10 +51,12 @@ export function renderFooter() {
             <h4 class="footer-col-title">Client Concierge</h4>
             <ul class="footer-links">
               <li><a href="#orders" class="footer-link">Track Insured Order</a></li>
+              <li><a href="#digital-gold" class="footer-link" style="color: var(--gold-bright); font-weight: 600;">🪙 24K Digital Gold (Buy / Sell / Redeem)</a></li>
+              <li><a href="#gold-plan" class="footer-link" style="color: var(--gold-bright); font-weight: 600;">✨ Monthly Gold Plan (11+1)</a></li>
               <li><a href="#rates" class="footer-link">Live Gold Calculator</a></li>
               <li><a href="#about" class="footer-link">Purity & Hallmarking Guide</a></li>
               <li><a href="#about" class="footer-link">Lifetime Exchange Policy</a></li>
-              <li><a href="#admin" class="footer-link" style="color: var(--gold-bright);">Admin Portal</a></li>
+              <li><a href="#wishlist" class="footer-link">My Saved Wishlist</a></li>
             </ul>
           </div>
 

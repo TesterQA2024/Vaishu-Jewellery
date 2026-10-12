@@ -44,6 +44,7 @@ import { getStoredLiveRates, updateStoredLiveRates } from '../services/productSe
 import { formatINR, formatDate } from '../utils/formatters';
 import { toggleTheme, getStoredTheme } from '../utils/theme';
 import { showToast } from '../components/Toast';
+import { loginUser } from '../services/authService';
 
 let activeModule = 'dashboard';
 let isSidebarOpenMobile = false;
@@ -2253,28 +2254,87 @@ function attachLayoutEvents(container, currentUser, onOpenAuthModal) {
   });
 }
 
-function renderAdminLoginGateway(container, onOpenAuthModal) {
+function renderAdminLoginGateway(container, onAdminAuthSuccess) {
   container.innerHTML = `
-    <div class="container" style="padding: 6rem 1.5rem; text-align: center; max-width: 540px;">
-      <div style="width: 56px; height: 56px; background: var(--gold-gradient); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: #000; box-shadow: var(--gold-glow);">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M6 3h12l4 6-10 12L2 9z"/>
-          <path d="M11 3 8 9l4 12 4-12-3-6"/>
-          <path d="M2 9h20"/>
-        </svg>
-      </div>
-      <h2 style="font-size: 2.2rem; margin-bottom: 0.75rem;" class="text-gold-gradient">Vaishu Vault Administration</h2>
-      <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem;">
-        Protected administrator portal for managing Cloud Firestore catalog, orders, bullion rates, and financial reports.
-      </p>
+    <div style="min-height: 85vh; display: flex; align-items: center; justify-content: center; padding: 3rem 1rem;">
+      <div class="admin-card" style="max-width: 440px; width: 100%; border: 1px solid var(--border-gold); box-shadow: var(--shadow-card); background: var(--bg-surface-elevated); padding: 2.5rem 2rem; border-radius: var(--radius-lg);">
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <div style="width: 56px; height: 56px; background: var(--gold-gradient); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; color: #000; box-shadow: var(--gold-glow);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <h2 style="font-size: 1.55rem; margin-bottom: 0.4rem;" class="text-gold-gradient">Vaishu Vault Console</h2>
+          <p style="color: var(--text-muted); font-size: 0.84rem; line-height: 1.45;">
+            Restricted Administrator Gateway.<br>Please authenticate with your store credentials.
+          </p>
+        </div>
 
-      <button class="btn btn-gold" id="btn-admin-gate-login" style="padding: 0.9rem 2.25rem; font-size: 1.05rem;">
-        <span>🔒 Sign In as Store Admin</span>
-      </button>
+        <form id="admin-standalone-login-form">
+          <div class="form-group" style="margin-bottom: 1.25rem;">
+            <label class="form-label" style="font-size: 0.82rem; font-weight: 600;">Administrator Email</label>
+            <input type="email" id="admin-gate-email" class="form-input" 
+                   value="admin@vaishujewellery.com" placeholder="admin@vaishujewellery.com" required autocomplete="email" />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label class="form-label" style="font-size: 0.82rem; font-weight: 600;">Security Passphrase</label>
+            <input type="password" id="admin-gate-password" class="form-input" 
+                   value="vaishuAdmin2026!" placeholder="••••••••" required autocomplete="current-password" />
+          </div>
+
+          <button type="submit" class="btn btn-gold" id="admin-gate-submit-btn" style="width: 100%; padding: 0.85rem; font-weight: 700; font-size: 0.95rem;">
+            <span>🔒 Authenticate & Access Console</span>
+          </button>
+        </form>
+
+        <div style="margin-top: 1.75rem; text-align: center; border-top: 1px solid var(--border-subtle); padding-top: 1.25rem;">
+          <a href="#" style="color: var(--text-muted); font-size: 0.82rem; text-decoration: none; transition: color 0.2s ease;">
+            ← Return to Customer Storefront
+          </a>
+        </div>
+      </div>
     </div>
   `;
 
-  document.getElementById('btn-admin-gate-login')?.addEventListener('click', () => {
-    if (onOpenAuthModal) onOpenAuthModal('admin');
+  const form = document.getElementById('admin-standalone-login-form');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('admin-gate-email')?.value.trim();
+    const password = document.getElementById('admin-gate-password')?.value;
+    const submitBtn = document.getElementById('admin-gate-submit-btn');
+
+    try {
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Verifying Credentials...</span>';
+      }
+
+      const user = await loginUser(email, password);
+      if (!user || user.role !== 'admin') {
+        showToast('Access Denied: This account lacks store administrator privileges.', 'error');
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>🔒 Authenticate & Access Console</span>';
+        }
+        return;
+      }
+
+      showToast(`Welcome to Vaishu Admin Console, ${user.displayName || 'Administrator'}!`, 'success');
+      if (onAdminAuthSuccess) {
+        onAdminAuthSuccess(user);
+      } else {
+        window.location.hash = '#admin';
+        window.location.reload();
+      }
+    } catch (err) {
+      console.error('Admin authentication error:', err);
+      showToast(err.message || 'Authentication failed. Please verify admin credentials.', 'error');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>🔒 Authenticate & Access Console</span>';
+      }
+    }
   });
 }

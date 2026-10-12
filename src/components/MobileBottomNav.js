@@ -98,14 +98,21 @@ export function renderMobileBottomNav(onOpenCartDrawer) {
     }
   });
 
+  const updateVisibility = (hash) => {
+    if (hash === '#admin') {
+      navContainer.classList.add('nav-hidden');
+    } else {
+      navContainer.classList.remove('nav-hidden');
+    }
+  };
+
+  // Clear any existing inline display style so CSS media query strictly controls desktop vs mobile
+  navContainer.style.display = '';
+
   // Handle route change active state
   window.addEventListener('hashchange', () => {
     const hash = window.location.hash.toLowerCase() || '';
-    if (hash === '#admin') {
-      navContainer.style.display = 'none';
-    } else {
-      navContainer.style.display = 'block';
-    }
+    updateVisibility(hash);
 
     document.querySelectorAll('.bottom-nav-item').forEach((item) => {
       const navTarget = item.getAttribute('data-nav');
@@ -122,9 +129,5 @@ export function renderMobileBottomNav(onOpenCartDrawer) {
     });
   });
 
-  if (currentHash === '#admin') {
-    navContainer.style.display = 'none';
-  } else {
-    navContainer.style.display = 'block';
-  }
+  updateVisibility(currentHash);
 }

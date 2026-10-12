@@ -126,47 +126,54 @@ export async function loginUser(email, password) {
 /**
  * Sign in with Google
  */
-export async function loginWithGoogle() {
-  if (!auth || !isLiveFirebaseConfigured) {
-    const mockUser = {
-      uid: 'google_user_' + Date.now(),
-      displayName: 'Google Royal Patron',
-      email: 'patron@example.com',
-      role: 'customer',
-      createdAt: new Date().toISOString()
-    };
-    setLocalMockUser(mockUser);
-    return mockUser;
+export async function loginWithGoogle(accountDetails = null) {
+  if (auth && isLiveFirebaseConfigured) {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      const userDocRef = doc(db, 'users', user.uid);
+      const existing = await getDoc(userDocRef);
+
+      let role = 'customer';
+      if (existing.exists()) {
+        role = existing.data().role || 'customer';
+      } else {
+        role = 'customer';
+        await setDoc(userDocRef, {
+          uid: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          role: role,
+          createdAt: serverTimestamp()
+        });
+      }
+
+      return {
+        uid: user.uid,
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        role: role
+      };
+    } catch (popupErr) {
+      console.warn('Firebase Google Sign-In popup notice:', popupErr);
+    }
   }
 
-  const result = await signInWithPopup(auth, googleProvider);
-  const user = result.user;
-
-  const userDocRef = doc(db, 'users', user.uid);
-  const existing = await getDoc(userDocRef);
-
-  let role = 'customer';
-  if (existing.exists()) {
-    role = existing.data().role || 'customer';
-  } else {
-    role = user.email === ADMIN_EMAIL ? 'admin' : 'customer';
-    await setDoc(userDocRef, {
-      uid: user.uid,
-      displayName: user.displayName,
-      email: user.email,
-      photoURL: user.photoURL,
-      role: role,
-      createdAt: serverTimestamp()
-    });
-  }
-
-  return {
-    uid: user.uid,
-    displayName: user.displayName,
-    email: user.email,
-    photoURL: user.photoURL,
-    role: role
+  const chosenEmail = accountDetails?.email || 'patron@gmail.com';
+  const chosenName = accountDetails?.displayName || chosenEmail.split('@')[0];
+  const mockUser = {
+    uid: 'google_user_' + Math.random().toString(36).substring(2, 9),
+    displayName: chosenName,
+    email: chosenEmail,
+    photoURL: accountDetails?.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(chosenName)}&background=4285F4&color=fff`,
+    role: 'customer',
+    createdAt: new Date().toISOString()
   };
+  setLocalMockUser(mockUser);
+  return mockUser;
 }
 
 /**

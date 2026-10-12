@@ -22,6 +22,8 @@ import { renderOrdersPage } from './pages/OrdersPage';
 import { renderWishlistPage } from './pages/WishlistPage';
 import { renderAdminPage } from './pages/AdminPage';
 import { renderAboutPage } from './pages/AboutPage';
+import { renderGoldPlanPage } from './pages/GoldPlanPage';
+import { renderDigitalGoldPage } from './pages/DigitalGoldPage';
 
 let currentUser = null;
 let cartDrawerController = null;
@@ -29,6 +31,9 @@ let cartDrawerController = null;
 // Initialize app structure
 function initApp() {
   initTheme();
+  if (window.location.pathname.toLowerCase().endsWith('/admin')) {
+    window.location.hash = '#admin';
+  }
   const appContainer = document.getElementById('app');
   appContainer.innerHTML = `
     <header id="header-container"></header>
@@ -58,8 +63,13 @@ function initApp() {
   renderFooterView();
   handleRoute();
 
-  // Launch Royal Grand Welcome & Countdown Experience
-  playRoyalIntro();
+  // Launch Royal Grand Welcome & Countdown Experience ONLY on initial tab open
+  // (Prevents timer on every refresh or normal page navigation; only reappears when site is closed and reopened)
+  const introSessionKey = 'vaishu_vault_intro_session_shown';
+  if (!sessionStorage.getItem(introSessionKey)) {
+    sessionStorage.setItem(introSessionKey, 'true');
+    playRoyalIntro();
+  }
 }
 
 function updateNavbar() {
@@ -113,6 +123,11 @@ async function handleRoute() {
     if (footerContainer) footerContainer.style.display = 'block';
   }
 
+  // Scroll to top on page navigation
+  if (hash !== '#rates') {
+    window.scrollTo(0, 0);
+  }
+
   if (hash === '' || hash === '#') {
     await renderHomePage(mainContent, openQuickViewModal);
   } else if (hash.startsWith('#shop')) {
@@ -130,10 +145,18 @@ async function handleRoute() {
     });
   } else if (hash === '#orders') {
     await renderOrdersPage(mainContent, currentUser, (tab) => openAuthModal(tab));
+  } else if (hash === '#gold-plan' || hash === '#swarna-plan' || hash === '#plan') {
+    await renderGoldPlanPage(mainContent, currentUser, (tab) => openAuthModal(tab));
+  } else if (hash === '#digital-gold' || hash === '#digigold') {
+    renderDigitalGoldPage(mainContent, currentUser, (tab) => openAuthModal(tab));
   } else if (hash === '#wishlist') {
     renderWishlistPage(mainContent);
   } else if (hash === '#admin') {
-    await renderAdminPage(mainContent, currentUser, (tab) => openAuthModal(tab, (u) => { currentUser = u; handleRoute(); }));
+    await renderAdminPage(mainContent, currentUser, (u) => { 
+      currentUser = u; 
+      updateNavbar(); 
+      handleRoute(); 
+    });
   } else if (hash === '#about' || hash === '#hallmark' || hash === '#privacy' || hash === '#terms') {
     renderAboutPage(mainContent);
   } else {

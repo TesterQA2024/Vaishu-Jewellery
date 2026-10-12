@@ -1,6 +1,7 @@
 /**
- * VAISHU JEWELLERY - Authentication Modal Component
- * Supports Customer Sign In, Sign Up, Google Auth, and Admin Login
+ * VAISHU JEWELLERY - Customer Authentication Modal
+ * Dedicated for Customer Sign In, Account Creation, and Google Login
+ * (Store Administrator authentication is strictly handled at #admin)
  */
 
 import {
@@ -8,6 +9,7 @@ import {
   registerCustomer,
   loginWithGoogle
 } from '../services/authService';
+import { openGoogleAccountChooser } from './GoogleAccountChooser';
 import { showToast } from './Toast';
 
 export function openAuthModal(defaultTab = 'login', onAuthSuccess) {
@@ -18,13 +20,14 @@ export function openAuthModal(defaultTab = 'login', onAuthSuccess) {
     document.body.appendChild(modalRoot);
   }
 
-  let currentTab = defaultTab; // 'login' | 'register' | 'admin'
+  // Ensure customer modal only toggles between 'login' and 'register'
+  let currentTab = defaultTab === 'register' ? 'register' : 'login';
 
   const render = () => {
     modalRoot.innerHTML = `
       <div class="modal-backdrop open" id="auth-modal-backdrop">
         <div class="modal-dialog" style="max-width: 480px;">
-          <button class="modal-close-btn" id="auth-modal-close-btn">✕</button>
+          <button class="modal-close-btn" id="auth-modal-close-btn" aria-label="Close">✕</button>
 
           <div style="padding: 2.5rem 2rem;">
             <!-- Modal Header -->
@@ -37,23 +40,22 @@ export function openAuthModal(defaultTab = 'login', onAuthSuccess) {
                 </svg>
               </div>
               <h2 style="font-size: 1.5rem; margin-bottom: 0.35rem;" class="text-gold-gradient">
-                ${currentTab === 'admin' ? 'Admin Portal Access' : 'Vaishu Royal Patronage'}
+                Vaishu Royal Patronage
               </h2>
               <p style="font-size: 0.85rem; color: var(--text-muted);">
-                ${currentTab === 'admin' ? 'Secure authentication for inventory and orders management' : 'Sign in to access your curated vault, orders and bespoke discounts'}
+                ${currentTab === 'register' 
+                  ? 'Create your royal customer profile to track purchases, save wishlists, and receive exclusive offers' 
+                  : 'Sign in to access your orders, track vault deliveries, and view saved wishlist items'}
               </p>
             </div>
 
-            <!-- Tab Switcher -->
+            <!-- Customer Tab Switcher -->
             <div style="display: flex; background: var(--bg-main); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 4px; margin-bottom: 1.5rem;">
-              <button class="tab-btn ${currentTab === 'login' ? 'active-tab' : ''}" id="tab-login" style="flex: 1; padding: 0.5rem; border: none; background: ${currentTab === 'login' ? 'var(--bg-surface-elevated)' : 'transparent'}; color: ${currentTab === 'login' ? 'var(--gold-bright)' : 'var(--text-muted)'}; font-weight: 600; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.85rem;">
-                Sign In
+              <button class="tab-btn ${currentTab === 'login' ? 'active-tab' : ''}" id="tab-login" style="flex: 1; padding: 0.55rem; border: none; background: ${currentTab === 'login' ? 'var(--bg-surface-elevated)' : 'transparent'}; color: ${currentTab === 'login' ? 'var(--gold-bright)' : 'var(--text-muted)'}; font-weight: 700; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.85rem; transition: all 0.2s ease;">
+                ✨ Sign In
               </button>
-              <button class="tab-btn ${currentTab === 'register' ? 'active-tab' : ''}" id="tab-register" style="flex: 1; padding: 0.5rem; border: none; background: ${currentTab === 'register' ? 'var(--bg-surface-elevated)' : 'transparent'}; color: ${currentTab === 'register' ? 'var(--gold-bright)' : 'var(--text-muted)'}; font-weight: 600; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.85rem;">
-                New Account
-              </button>
-              <button class="tab-btn ${currentTab === 'admin' ? 'active-tab' : ''}" id="tab-admin" style="flex: 1; padding: 0.5rem; border: none; background: ${currentTab === 'admin' ? 'var(--bg-surface-elevated)' : 'transparent'}; color: ${currentTab === 'admin' ? 'var(--gold-bright)' : 'var(--text-muted)'}; font-weight: 600; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.85rem;">
-                Admin
+              <button class="tab-btn ${currentTab === 'register' ? 'active-tab' : ''}" id="tab-register" style="flex: 1; padding: 0.55rem; border: none; background: ${currentTab === 'register' ? 'var(--bg-surface-elevated)' : 'transparent'}; color: ${currentTab === 'register' ? 'var(--gold-bright)' : 'var(--text-muted)'}; font-weight: 700; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.85rem; transition: all 0.2s ease;">
+                👑 New Account
               </button>
             </div>
 
@@ -62,49 +64,45 @@ export function openAuthModal(defaultTab = 'login', onAuthSuccess) {
               ${currentTab === 'register' ? `
                 <div class="form-group">
                   <label class="form-label">Full Name</label>
-                  <input type="text" id="auth-name" class="form-input" placeholder="e.g. Maharani Gayatri Devi" required />
+                  <input type="text" id="auth-name" class="form-input" placeholder="e.g. Maharani Gayatri Devi" required autocomplete="name" />
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Phone Number</label>
-                  <input type="tel" id="auth-phone" class="form-input" placeholder="+91 98765 43210" />
+                  <label class="form-label">Phone Number (For Delivery & OTP Updates)</label>
+                  <input type="tel" id="auth-phone" class="form-input" placeholder="+91 98765 43210" autocomplete="tel" />
                 </div>
               ` : ''}
 
               <div class="form-group">
                 <label class="form-label">Email Address</label>
                 <input type="email" id="auth-email" class="form-input" 
-                       value="${currentTab === 'admin' ? 'admin@vaishujewellery.com' : ''}"
-                       placeholder="${currentTab === 'admin' ? 'admin@vaishujewellery.com' : 'patron@example.com'}" required />
+                       placeholder="your.email@example.com" required autocomplete="email" />
               </div>
 
               <div class="form-group">
                 <label class="form-label">Password</label>
                 <input type="password" id="auth-password" class="form-input" 
-                       value="${currentTab === 'admin' ? 'vaishuAdmin2026!' : ''}"
-                       placeholder="••••••••" required />
+                       placeholder="••••••••" required autocomplete="${currentTab === 'register' ? 'new-password' : 'current-password'}" />
               </div>
 
-              <button type="submit" class="btn btn-gold" id="auth-submit-btn" style="width: 100%; padding: 0.8rem; margin-top: 0.5rem;">
-                <span>${currentTab === 'register' ? '👑 Create Royal Account' : (currentTab === 'admin' ? '🔒 Enter Admin Portal' : '✨ Sign In to Vault')}</span>
+              <button type="submit" class="btn btn-gold" id="auth-submit-btn" style="width: 100%; padding: 0.85rem; margin-top: 0.75rem; font-weight: 700;">
+                <span>${currentTab === 'register' ? '👑 Create Customer Account' : '✨ Sign In to Vault'}</span>
               </button>
             </form>
 
-            ${currentTab !== 'admin' ? `
-              <div style="margin: 1.5rem 0; text-align: center; position: relative;">
-                <div style="border-top: 1px solid var(--border-subtle);"></div>
-                <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--bg-surface); padding: 0 10px; font-size: 0.75rem; color: var(--text-muted);">OR</span>
-              </div>
+            <div style="margin: 1.5rem 0; text-align: center; position: relative;">
+              <div style="border-top: 1px solid var(--border-subtle);"></div>
+              <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--bg-surface); padding: 0 10px; font-size: 0.75rem; color: var(--text-muted);">OR</span>
+            </div>
 
-              <button type="button" class="btn btn-ghost" id="google-auth-btn" style="width: 100%; display: flex; gap: 0.5rem; justify-content: center; align-items: center; padding: 0.75rem;">
-                <svg width="18" height="18" viewBox="0 0 24 24">
-                  <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.3l3.7 2.9C6.2 7.2 8.9 5 12 5z"/>
-                  <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/>
-                  <path fill="#FBBC05" d="M5.3 14.8c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.6 7.3C.6 9.3 0 11.6 0 14s.6 4.7 1.6 6.7l3.7-2.9z"/>
-                  <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.2-6.7-5.2L1.6 16c1.9 3.7 5.8 7 10.4 7z"/>
-                </svg>
-                <span>Continue with Google</span>
-              </button>
-            ` : ''}
+            <button type="button" class="btn btn-ghost" id="google-auth-btn" style="width: 100%; display: flex; gap: 0.6rem; justify-content: center; align-items: center; padding: 0.75rem; border: 1px solid var(--border-subtle);">
+              <svg width="18" height="18" viewBox="0 0 24 24">
+                <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.3l3.7 2.9C6.2 7.2 8.9 5 12 5z"/>
+                <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/>
+                <path fill="#FBBC05" d="M5.3 14.8c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.6 7.3C.6 9.3 0 11.6 0 14s.6 4.7 1.6 6.7l3.7-2.9z"/>
+                <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.2-6.7-5.2L1.6 16c1.9 3.7 5.8 7 10.4 7z"/>
+              </svg>
+              <span>Continue with Google</span>
+            </button>
           </div>
         </div>
       </div>
@@ -126,17 +124,13 @@ export function openAuthModal(defaultTab = 'login', onAuthSuccess) {
       if (e.target === backdrop) close();
     });
 
-    // Tab buttons
+    // Customer Tab buttons
     document.getElementById('tab-login')?.addEventListener('click', () => {
       currentTab = 'login';
       render();
     });
     document.getElementById('tab-register')?.addEventListener('click', () => {
       currentTab = 'register';
-      render();
-    });
-    document.getElementById('tab-admin')?.addEventListener('click', () => {
-      currentTab = 'admin';
       render();
     });
 
@@ -156,37 +150,31 @@ export function openAuthModal(defaultTab = 'login', onAuthSuccess) {
           showToast(`Welcome to Vaishu Jewellery, ${user.displayName}!`, 'success');
         } else {
           user = await loginUser(email, password);
-          if (currentTab === 'admin' && user.role !== 'admin') {
-            showToast('Access Denied: You do not have Admin privileges.', 'error');
-            return;
-          }
           showToast(`Signed in successfully as ${user.displayName || user.email}!`, 'success');
         }
 
         close();
         if (onAuthSuccess) onAuthSuccess(user);
-        if (currentTab === 'admin' || user.role === 'admin') {
-          window.location.hash = '#admin';
-        } else {
-          window.location.reload();
-        }
+        window.location.reload();
       } catch (err) {
-        console.error('Auth error:', err);
-        showToast(err.message || 'Authentication failed. Please check credentials.', 'error');
+        console.error('Customer Auth error:', err);
+        showToast(err.message || 'Authentication failed. Please verify email and password.', 'error');
       }
     });
 
-    // Google Sign In
-    document.getElementById('google-auth-btn')?.addEventListener('click', async () => {
-      try {
-        const user = await loginWithGoogle();
-        showToast(`Welcome ${user.displayName}!`, 'success');
-        close();
-        if (onAuthSuccess) onAuthSuccess(user);
-        window.location.reload();
-      } catch (err) {
-        showToast(err.message || 'Google sign-in error', 'error');
-      }
+    // Google Sign In - Prompts user with genuine Google Account Chooser
+    document.getElementById('google-auth-btn')?.addEventListener('click', () => {
+      openGoogleAccountChooser(async (chosenAccount) => {
+        try {
+          const user = await loginWithGoogle(chosenAccount);
+          showToast(`Welcome, ${user.displayName || 'Patron'}!`, 'success');
+          close();
+          if (onAuthSuccess) onAuthSuccess(user);
+          window.location.reload();
+        } catch (err) {
+          showToast(err.message || 'Google sign-in error', 'error');
+        }
+      });
     });
   };
 
