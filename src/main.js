@@ -12,6 +12,8 @@ import { openQuickViewModal } from './components/QuickViewModal';
 import { openAuthModal } from './components/AuthModal';
 import { playRoyalIntro } from './components/RoyalIntro';
 import { renderMobileBottomNav } from './components/MobileBottomNav';
+import { startLiveBullionEngine } from './services/liveRateService';
+import { showToast } from './components/Toast';
 
 // Pages
 import { renderHomePage } from './pages/HomePage';
@@ -24,6 +26,7 @@ import { renderAdminPage } from './pages/AdminPage';
 import { renderAboutPage } from './pages/AboutPage';
 import { renderGoldPlanPage } from './pages/GoldPlanPage';
 import { renderDigitalGoldPage } from './pages/DigitalGoldPage';
+import { renderProductDetailPage } from './pages/ProductDetailPage';
 
 let currentUser = null;
 let cartDrawerController = null;
@@ -31,6 +34,7 @@ let cartDrawerController = null;
 // Initialize app structure
 function initApp() {
   initTheme();
+  startLiveBullionEngine();
   if (window.location.pathname.toLowerCase().endsWith('/admin')) {
     window.location.hash = '#admin';
   }
@@ -104,6 +108,19 @@ function renderFooterView() {
   const footerContainer = document.getElementById('footer-container');
   if (footerContainer) {
     footerContainer.innerHTML = renderFooter();
+
+    const newsletterForm = document.getElementById('footer-newsletter-form');
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const input = document.getElementById('footer-news-email');
+        const email = input?.value.trim();
+        if (email) {
+          showToast(`✨ Welcome to the Royal Privilege Club! Confirmation dispatched to ${email}`, 'success');
+          input.value = '';
+        }
+      });
+    }
   }
 }
 
@@ -130,6 +147,20 @@ async function handleRoute() {
 
   if (hash === '' || hash === '#') {
     await renderHomePage(mainContent, openQuickViewModal);
+  } else if (hash.startsWith('#product')) {
+    let prodId = '';
+    if (hash.includes('/')) {
+      prodId = hash.split('/')[1]?.split('?')[0];
+    } else if (hash.includes('?')) {
+      prodId = new URLSearchParams(hash.split('?')[1] || '').get('id');
+    }
+    await renderProductDetailPage(
+      mainContent,
+      prodId,
+      currentUser,
+      (tab) => openAuthModal(tab, (u) => { currentUser = u; updateNavbar(); handleRoute(); }),
+      () => cartDrawerController?.open()
+    );
   } else if (hash.startsWith('#shop')) {
     await renderCatalogPage(mainContent, openQuickViewModal, 'all');
   } else if (hash === '#bridal') {
@@ -144,11 +175,11 @@ async function handleRoute() {
       window.location.hash = '#orders';
     });
   } else if (hash === '#orders') {
-    await renderOrdersPage(mainContent, currentUser, (tab) => openAuthModal(tab));
+    await renderOrdersPage(mainContent, currentUser, (tab) => openAuthModal(tab, (u) => { currentUser = u; updateNavbar(); handleRoute(); }));
   } else if (hash === '#gold-plan' || hash === '#swarna-plan' || hash === '#plan') {
-    await renderGoldPlanPage(mainContent, currentUser, (tab) => openAuthModal(tab));
+    await renderGoldPlanPage(mainContent, currentUser, (tab) => openAuthModal(tab, (u) => { currentUser = u; updateNavbar(); handleRoute(); }));
   } else if (hash === '#digital-gold' || hash === '#digigold') {
-    renderDigitalGoldPage(mainContent, currentUser, (tab) => openAuthModal(tab));
+    renderDigitalGoldPage(mainContent, currentUser, (tab) => openAuthModal(tab, (u) => { currentUser = u; updateNavbar(); handleRoute(); }));
   } else if (hash === '#wishlist') {
     renderWishlistPage(mainContent);
   } else if (hash === '#admin') {

@@ -968,6 +968,33 @@ export async function renderHomePage(container, onOpenQuickView) {
       if (billTotal) billTotal.textContent = formatINR(breakdown.total);
     };
 
+    // Live MCX rate listener for instant dynamic calculation updates
+    window.addEventListener('vaishu-rates-updated', (e) => {
+      const rates = e.detail?.rates;
+      if (!rates) return;
+      document.querySelectorAll('.metal-purity-card').forEach(card => {
+        const karat = card.getAttribute('data-karat') || '';
+        if (karat.includes('22K')) {
+          card.setAttribute('data-rate', rates.gold22k);
+          const disp = card.querySelector('.metal-rate-display');
+          if (disp) disp.innerHTML = `₹${rates.gold22k.toLocaleString('en-IN')}<span>/g</span>`;
+        } else if (karat.includes('24K')) {
+          card.setAttribute('data-rate', rates.gold24k);
+          const disp = card.querySelector('.metal-rate-display');
+          if (disp) disp.innerHTML = `₹${rates.gold24k.toLocaleString('en-IN')}<span>/g</span>`;
+        } else if (karat.includes('18K')) {
+          card.setAttribute('data-rate', rates.gold18k);
+          const disp = card.querySelector('.metal-rate-display');
+          if (disp) disp.innerHTML = `₹${rates.gold18k.toLocaleString('en-IN')}<span>/g</span>`;
+        } else if (karat.includes('Silver')) {
+          card.setAttribute('data-rate', rates.silver);
+          const disp = card.querySelector('.metal-rate-display');
+          if (disp) disp.innerHTML = `₹${rates.silver.toFixed(1)}<span>/g</span>`;
+        }
+      });
+      updateCalculator();
+    });
+
     // Step Navigation Function
     const goToStep = (stepNum) => {
       activeStep = Math.max(1, Math.min(4, stepNum));

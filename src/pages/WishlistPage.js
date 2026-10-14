@@ -5,6 +5,7 @@
 import { getWishlist, addToCart, toggleWishlist } from '../services/cartService';
 import { formatINR } from '../utils/formatters';
 import { showToast } from '../components/Toast';
+import { triggerAddToCartVisuals } from '../utils/cartAnimation';
 
 export function renderWishlistPage(container) {
   const list = getWishlist();
@@ -61,8 +62,16 @@ export function renderWishlistPage(container) {
       if (item) {
         addToCart(item, 1);
         toggleWishlist(item);
-        showToast(`Moved "${item.name}" to shopping bag!`, 'success');
-        renderWishlistPage(container);
+        const card = btn.closest('.product-card');
+        const img = card?.querySelector('.product-img-wrapper img');
+        triggerAddToCartVisuals({
+          button: btn,
+          product: item,
+          imageElement: img
+        });
+        setTimeout(() => {
+          renderWishlistPage(container);
+        }, 600);
       }
     });
   });

@@ -6,6 +6,8 @@ import { formatINR } from '../utils/formatters';
 import { calculateItemBreakdown } from '../services/productService';
 import { addToCart } from '../services/cartService';
 import { showToast } from './Toast';
+import { openCartDrawer } from './CartDrawer';
+import { playRoyalChime, triggerCartImpact, getActiveCartButton } from '../utils/cartAnimation';
 
 export function openQuickViewModal(product) {
   let modalRoot = document.getElementById('modal-root');
@@ -83,10 +85,13 @@ export function openQuickViewModal(product) {
             </div>
 
             <!-- Action Buttons -->
-            <div style="display: flex; gap: 1rem; margin-top: auto;">
-              <button class="btn btn-gold" id="quick-view-add-btn" style="flex: 1; padding: 0.85rem;">
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: auto;">
+              <button class="btn btn-gold" id="quick-view-add-btn" style="width: 100%; padding: 0.85rem; font-weight: 700;">
                 <span>✨ Add to Royal Bag</span>
               </button>
+              <a href="#product/${product.id}" class="btn btn-outline-gold" id="quick-view-full-page-btn" style="width: 100%; padding: 0.75rem; text-decoration: none; text-align: center; font-size: 0.82rem; font-weight: 600;">
+                View Full Royal Specifications & Certificates →
+              </a>
             </div>
           </div>
         </div>
@@ -106,11 +111,22 @@ export function openQuickViewModal(product) {
     if (e.target === backdrop) close();
   });
 
+  document.getElementById('quick-view-full-page-btn')?.addEventListener('click', () => {
+    close();
+  });
+
   // Attach Add to Cart
   document.getElementById('quick-view-add-btn')?.addEventListener('click', () => {
     const size = document.getElementById('quick-view-size')?.value || 'Standard';
     addToCart(product, 1, size);
-    showToast(`Added "${product.name}" (${size}) to your bag!`, 'success');
     close();
+    
+    // Smoothly open royal cart drawer and trigger sensory chime
+    playRoyalChime();
+    const targetBtn = getActiveCartButton();
+    triggerCartImpact(targetBtn);
+    setTimeout(() => {
+      openCartDrawer(product.id);
+    }, 150);
   });
 }

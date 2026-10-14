@@ -46,10 +46,10 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
             <div class="disclaimer-header">
               <span style="font-size: 1.5rem;">⚠️</span>
               <div>
-                <h4 style="font-size: 1.05rem; color: #ffb703; margin: 0 0 2px 0; font-weight: 800;">
+                <h4 class="disclaimer-title">
                   महत्वपूर्ण वैधानिक नियम एवं सूचना (Mandatory Statutory Terms & Disclaimer)
                 </h4>
-                <div style="font-size: 0.8rem; color: #d4af37;">कृपया योजना शुरू करने से पहले इन आवश्यक नियमों को ध्यानपूर्वक पढ़ें:</div>
+                <div class="disclaimer-sub">कृपया योजना शुरू करने से पहले इन आवश्यक नियमों को ध्यानपूर्वक पढ़ें:</div>
               </div>
             </div>
             <div class="disclaimer-rules-grid">
@@ -88,7 +88,7 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
           ${currentUser && userPlans.length > 0 ? `
             <div class="active-plans-container" style="margin-bottom: 3.5rem;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
-                <h2 style="font-size: 1.5rem; color: #fff; margin: 0;">
+                <h2 style="font-size: 1.5rem; color: var(--text-main); margin: 0;">
                   👑 My Active Jewellery Purchase Plans (${userPlans.length})
                 </h2>
                 <button type="button" class="btn btn-gold btn-sm" id="btn-scroll-to-enroll">
@@ -110,7 +110,7 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
                           <span class="badge-tag" style="background: rgba(212, 175, 55, 0.2); color: var(--gold-bright); font-weight: 700;">
                             PLAN #${plan.planId}
                           </span>
-                          <h3 style="font-size: 1.25rem; color: #fff; margin: 0.35rem 0 0 0;">
+                          <h3 style="font-size: 1.25rem; color: var(--text-main); margin: 0.35rem 0 0 0;">
                             ${formatINR(plan.monthlyAmount)} / Month (${plan.durationMonths}+1 Scheme)
                           </h3>
                         </div>
@@ -140,7 +140,7 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
                         </div>
                         <div class="plan-fin-item">
                           <span class="plan-fin-label">Vaishu Free 1-Mo Bonus:</span>
-                          <span class="plan-fin-val" style="color: #34d399;">+${formatINR(plan.bonusContribution)} (Free)</span>
+                          <span class="plan-fin-val plan-bonus-green">+${formatINR(plan.bonusContribution)} (Free)</span>
                         </div>
                         <div class="plan-fin-item">
                           <span class="plan-fin-label">Total Jewellery Voucher:</span>
@@ -199,7 +199,7 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
                                 <strong>Installment #${ins.installmentNo}</strong> (${ins.paymentMethod || 'UPI'})
                                 <div style="font-size: 0.72rem; color: var(--text-muted);">${ins.receiptNo} • ${new Date(ins.paidAt).toLocaleDateString('en-IN')}</div>
                               </div>
-                              <div style="font-weight: 700; color: #fff;">${formatINR(ins.amount)}</div>
+                              <div style="font-weight: 700; color: var(--text-main);">${formatINR(ins.amount)}</div>
                             </div>
                           `).join('')}
                         </div>
@@ -218,7 +218,7 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
               <div class="plan-calc-left">
                 <div style="margin-bottom: 1.5rem;">
                   <span class="ticker-badge" style="font-size: 0.72rem; padding: 0.2rem 0.6rem;">SIMULATOR</span>
-                  <h3 style="font-size: 1.5rem; color: #fff; margin: 0.4rem 0 0.2rem 0;">
+                  <h3 style="font-size: 1.5rem; color: var(--text-main); margin: 0.4rem 0 0.2rem 0;">
                     Customize Your Monthly Jewellery Plan
                   </h3>
                   <p style="font-size: 0.85rem; color: var(--text-muted);">
@@ -272,7 +272,7 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
 
                 <!-- Instant Enrollment Form -->
                 <div class="enrollment-form-container">
-                  <h4 style="font-size: 1rem; color: #fff; margin-bottom: 0.75rem;">
+                  <h4 style="font-size: 1rem; color: var(--text-main); margin-bottom: 0.75rem;">
                     ${currentUser ? 'Confirm Patron Details & Start Plan' : 'Sign In Required to Enroll'}
                   </h4>
 
@@ -325,7 +325,7 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
                   ` : `
                     <div style="text-align: center; padding: 2rem 1.5rem; background: rgba(255, 255, 255, 0.02); border: 1px dashed var(--border-gold); border-radius: 12px;">
                       <div style="font-size: 2rem; margin-bottom: 0.5rem;">👑</div>
-                      <h4 style="font-size: 1.15rem; color: #fff; margin-bottom: 0.4rem;">Sign In to Your Patron Account</h4>
+                      <h4 style="font-size: 1.15rem; color: var(--text-main); margin-bottom: 0.4rem;">Sign In to Your Patron Account</h4>
                       <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.25rem;">
                         To enroll in the 11+1 Monthly Jewellery Plan and track your monthly installments, please sign in or register your account.
                       </p>
@@ -345,10 +345,10 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
                   <div class="cert-header">
                     <span style="font-size: 1.6rem;">📜</span>
                     <div>
-                      <div style="font-size: 0.72rem; letter-spacing: 0.12em; color: var(--gold-bright); text-transform: uppercase;">
+                      <div class="cert-header-tag" style="font-size: 0.72rem; letter-spacing: 0.12em; color: var(--gold-bright); text-transform: uppercase;">
                         BENEFIT GUARANTEE PASSBOOK
                       </div>
-                      <div style="font-size: 1.1rem; font-weight: 800; color: #fff;">
+                      <div class="cert-header-title" style="font-size: 1.1rem; font-weight: 800; color: var(--text-main);">
                         ${selectedDuration}+1 Royal Jewellery Benefit
                       </div>
                     </div>
@@ -368,9 +368,9 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
                     <div class="cert-row cert-row-bonus">
                       <span class="cert-lbl">
                         Vaishu Jewellery 1-Month Free Bonus
-                        <div style="font-size: 0.7rem; color: #34d399;">100% Sponsored Gift from House of Vaishu</div>
+                        <div class="cert-bonus-tag">100% Sponsored Gift from House of Vaishu</div>
                       </span>
-                      <span class="cert-val" style="color: #34d399; font-size: 1.2rem;">+${formatINR(estimate.bonusAmount)} FREE</span>
+                      <span class="cert-val cert-bonus-val" style="font-size: 1.2rem;">+${formatINR(estimate.bonusAmount)} FREE</span>
                     </div>
 
                     <div class="cert-divider"></div>
@@ -389,7 +389,7 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
                   <!-- Visual Comparison Tag -->
                   <div class="cert-footer-banner">
                     <span style="font-size: 1.2rem;">✨</span>
-                    <span style="font-size: 0.8rem; color: #fff;">
+                    <span style="font-size: 0.8rem; color: var(--text-main);">
                       You save <strong>${formatINR(estimate.userContribution)}</strong>, but you buy jewellery worth <strong>${formatINR(estimate.totalMaturityValue)}</strong>!
                     </span>
                   </div>
@@ -406,14 +406,14 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
           <div style="margin-top: 4.5rem;">
             <div style="text-align: center; margin-bottom: 2rem;">
               <span class="ticker-badge" style="font-size: 0.72rem;">SIMPLE 4-STEP JOURNEY</span>
-              <h2 style="font-size: 2rem; color: #fff; margin: 0.5rem 0 0 0;">How Swarna Nidhi Works</h2>
+              <h2 style="font-size: 2rem; color: var(--text-main); margin: 0.5rem 0 0 0;">How Swarna Nidhi Works</h2>
             </div>
 
             <div class="plan-steps-grid">
               <div class="plan-step-card">
                 <div class="plan-step-num">01</div>
                 <div class="plan-step-icon">📱</div>
-                <h4 style="font-size: 1.05rem; color: #fff; margin-bottom: 0.35rem;">Enroll Online in 60s</h4>
+                <h4 style="font-size: 1.05rem; color: var(--text-main); margin-bottom: 0.35rem;">Enroll Online in 60s</h4>
                 <p style="font-size: 0.82rem; color: var(--text-muted);">
                   Choose your monthly installment from ₹2,000 to ₹50,000 and pay the first month installment securely via UPI or Card.
                 </p>
@@ -422,7 +422,7 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
               <div class="plan-step-card">
                 <div class="plan-step-num">02</div>
                 <div class="plan-step-icon">🗓️</div>
-                <h4 style="font-size: 1.05rem; color: #fff; margin-bottom: 0.35rem;">Pay 11 Easy Monthly EMIs</h4>
+                <h4 style="font-size: 1.05rem; color: var(--text-main); margin-bottom: 0.35rem;">Pay 11 Easy Monthly EMIs</h4>
                 <p style="font-size: 0.82rem; color: var(--text-muted);">
                   Pay each month on your schedule with automated digital receipts, SMS/email updates, and progress tracking in your dashboard.
                 </p>
@@ -431,7 +431,7 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
               <div class="plan-step-card">
                 <div class="plan-step-num">03</div>
                 <div class="plan-step-icon">🎁</div>
-                <h4 style="font-size: 1.05rem; color: #fff; margin-bottom: 0.35rem;">12th Month EMI 100% Free</h4>
+                <h4 style="font-size: 1.05rem; color: var(--text-main); margin-bottom: 0.35rem;">12th Month EMI 100% Free</h4>
                 <p style="font-size: 0.82rem; color: var(--text-muted);">
                   Upon timely completion of 11 months, Vaishu Jewellery credits the 12th Month installment completely free of cost!
                 </p>
@@ -440,7 +440,7 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
               <div class="plan-step-card">
                 <div class="plan-step-num">04</div>
                 <div class="plan-step-icon">👑</div>
-                <h4 style="font-size: 1.05rem; color: #fff; margin-bottom: 0.35rem;">Redeem for Royal Jewellery</h4>
+                <h4 style="font-size: 1.05rem; color: var(--text-main); margin-bottom: 0.35rem;">Redeem for Royal Jewellery</h4>
                 <p style="font-size: 0.82rem; color: var(--text-muted);">
                   Take home your favorite BIS 916 hallmarked necklace, solitaire ring, or bridal set from our showroom or website.
                 </p>
@@ -451,7 +451,7 @@ export async function renderGoldPlanPage(container, currentUser, onOpenAuthModal
           <!-- FREQUENTLY ASKED QUESTIONS (FAQ) -->
           <div style="margin-top: 4.5rem; max-width: 820px; margin-left: auto; margin-right: auto;">
             <div style="text-align: center; margin-bottom: 2rem;">
-              <h2 style="font-size: 1.8rem; color: #fff; margin: 0 0 0.5rem 0;">Frequently Asked Questions</h2>
+              <h2 style="font-size: 1.8rem; color: var(--text-main); margin: 0 0 0.5rem 0;">Frequently Asked Questions</h2>
               <p style="color: var(--text-muted); font-size: 0.88rem;">Everything you need to know about our Monthly Jewellery Purchase Plan</p>
             </div>
 

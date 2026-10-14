@@ -5,6 +5,7 @@
 import { formatINR } from '../utils/formatters';
 import { isInWishlist, toggleWishlist, addToCart } from '../services/cartService';
 import { showToast } from './Toast';
+import { triggerAddToCartVisuals } from '../utils/cartAnimation';
 
 export function renderProductCard(product) {
   const isWishlisted = isInWishlist(product.id);
@@ -15,7 +16,9 @@ export function renderProductCard(product) {
   return `
     <div class="product-card" data-product-id="${product.id}">
       <div class="product-img-wrapper">
-        <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=900&q=80'" />
+        <a href="#product/${product.id}" class="product-img-link" style="display: block; width: 100%; height: 100%;">
+          <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=900&q=80'" />
+        </a>
         
         <!-- Badges -->
         <div class="product-badges">
@@ -36,7 +39,9 @@ export function renderProductCard(product) {
 
       <div class="product-card-body">
         <div class="product-card-category">${product.category}</div>
-        <h3 class="product-card-title" title="${product.name}">${product.name}</h3>
+        <h3 class="product-card-title" title="${product.name}">
+          <a href="#product/${product.id}" style="color: inherit; text-decoration: none;">${product.name}</a>
+        </h3>
 
         <div class="product-card-meta">
           <span>⚖️ ${product.weightGrams ? product.weightGrams + 'g' : (product.diamondCarat || 'Pure')}</span>
@@ -63,6 +68,19 @@ export function renderProductCard(product) {
 }
 
 export function attachProductCardEvents(container, products, onOpenQuickView) {
+  // Card click navigates to Product Details Page
+  container.querySelectorAll('.product-card').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', (e) => {
+      // Avoid intercepting clicks on buttons or links
+      if (e.target.closest('button') || e.target.closest('a')) return;
+      const id = card.getAttribute('data-product-id');
+      if (id) {
+        window.location.hash = `#product/${id}`;
+      }
+    });
+  });
+
   // Add to Bag clicks
   container.querySelectorAll('.btn-add-cart').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -71,7 +89,13 @@ export function attachProductCardEvents(container, products, onOpenQuickView) {
       const product = products.find(p => p.id === id);
       if (product) {
         addToCart(product, 1);
-        showToast(`Added "${product.name}" to your shopping bag!`, 'success');
+        const card = btn.closest('.product-card');
+        const img = card?.querySelector('.product-img-wrapper img');
+        triggerAddToCartVisuals({
+          button: btn,
+          product: product,
+          imageElement: img
+        });
       }
     });
   });

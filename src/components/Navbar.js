@@ -3,6 +3,7 @@
  */
 
 import { getStoredLiveRates } from '../services/productService';
+import { subscribeToLiveRates, openLiveMCXModal, getCurrentLiveRates } from '../services/liveRateService';
 import { subscribeToCart } from '../services/cartService';
 import { getWishlist } from '../services/cartService';
 import { logoutUser } from '../services/authService';
@@ -10,27 +11,38 @@ import { toggleTheme, getStoredTheme } from '../utils/theme';
 import { showToast } from './Toast';
 
 export function renderNavbar(currentUser, onOpenAuthModal, onOpenCartDrawer, onNavigate) {
-  const rates = getStoredLiveRates();
+  const rates = getCurrentLiveRates();
   const wishlistCount = getWishlist().length;
   const currentTheme = getStoredTheme();
   const isLight = currentTheme === 'light';
+  const isUp = rates.change24k >= 0;
 
   const tickerItemsHtml = `
-    <div class="ticker-item">
+    <div class="ticker-item ticker-live-trigger" title="Click to view Live MCX Bullion Terminal">
       <span class="ticker-badge"><span class="ticker-pulse-dot"></span>MCX LIVE</span>
-      <span>24K Gold: <strong>₹${rates.gold24k}/g</strong></span>
+      <span class="ticker-change-badge ${isUp ? 'ticker-up' : 'ticker-down'}">
+        ${isUp ? '▲ +' : '▼ '}₹${Math.abs(rates.change24k)} (${isUp ? '+' : ''}${rates.changePercent24k}%)
+      </span>
     </div>
     <span class="ticker-sep">✦</span>
-    <div class="ticker-item">
-      <span>22K (916 BIS): <strong>₹${rates.gold22k}/g</strong></span>
+    <div class="ticker-item ticker-live-trigger" title="Click for MCX Details">
+      <span>24K Gold: <strong class="ticker-val-24k ticker-rate-num">₹${rates.gold24k.toLocaleString('en-IN')}/g</strong></span>
     </div>
     <span class="ticker-sep">✦</span>
-    <div class="ticker-item">
-      <span>18K Diamond: <strong>₹${rates.gold18k}/g</strong></span>
+    <div class="ticker-item ticker-live-trigger" title="Click for MCX Details">
+      <span>22K (916 BIS): <strong class="ticker-val-22k ticker-rate-num">₹${rates.gold22k.toLocaleString('en-IN')}/g</strong></span>
     </div>
     <span class="ticker-sep">✦</span>
-    <div class="ticker-item">
-      <span>Silver 999: <strong>₹${rates.silver}/g</strong></span>
+    <div class="ticker-item ticker-live-trigger" title="Click for MCX Details">
+      <span>18K Diamond: <strong class="ticker-val-18k ticker-rate-num">₹${rates.gold18k.toLocaleString('en-IN')}/g</strong></span>
+    </div>
+    <span class="ticker-sep">✦</span>
+    <div class="ticker-item ticker-live-trigger" title="Click for MCX Details">
+      <span>Silver 999: <strong class="ticker-val-silver ticker-rate-num">₹${rates.silver.toFixed(1)}/g</strong></span>
+    </div>
+    <span class="ticker-sep">✦</span>
+    <div class="ticker-item ticker-live-trigger" title="Open Live Bullion Terminal">
+      <span class="ticker-terminal-tag">📈 Live Terminal</span>
     </div>
     <span class="ticker-sep">✦</span>
     <div class="ticker-item">
@@ -211,8 +223,8 @@ export function renderNavbar(currentUser, onOpenAuthModal, onOpenCartDrawer, onN
             `}
 
             <!-- Gold Rate Snapshot -->
-            <div style="background: var(--bg-surface-elevated); padding: 0.75rem 1rem; border-radius: var(--radius-md); font-size: 0.8rem; color: var(--gold-bright); text-align: center; border: 1px dashed var(--border-gold);">
-              <span>MCX 22K Gold: <strong>₹${rates.gold22k}/g</strong> | 24K: <strong>₹${rates.gold24k}/g</strong></span>
+            <div style="background: var(--bg-surface-elevated); padding: 0.75rem 1rem; border-radius: var(--radius-md); font-size: 0.8rem; color: var(--gold-bright); text-align: center; border: 1px dashed var(--border-gold); cursor: pointer;" id="mobile-drawer-rates-box" title="Click for MCX Terminal">
+              <span id="mobile-drawer-rates-snapshot">MCX 22K Gold: <strong>₹${rates.gold22k.toLocaleString('en-IN')}/g</strong> | 24K: <strong>₹${rates.gold24k.toLocaleString('en-IN')}/g</strong></span>
             </div>
           </div>
         </div>
@@ -324,4 +336,66 @@ export function attachNavbarEvents(onOpenAuthModal, onOpenCartDrawer) {
       tickerWrapper.style.animationPlayState = 'running';
     }, { passive: true });
   }
+
+  // Subscribe to Live MCX Rates updates & tick effects
+  subscribeToLiveRates((rates, tickMeta) => {
+    // 24K values
+    document.querySelectorAll('.ticker-val-24k').forEach(el => {
+      el.textContent = `₹${rates.gold24k.toLocaleString('en-IN')}/g`;
+      if (tickMeta.direction === 'up') {
+        el.classList.add('tick-glow-green');
+        setTimeout(() => el.classList.remove('tick-glow-green'), 850);
+      } else if (tickMeta.direction === 'down') {
+        el.classList.add('tick-glow-red');
+        setTimeout(() => el.classList.remove('tick-glow-red'), 850);
+      }
+    });
+
+    // 22K values
+    document.querySelectorAll('.ticker-val-22k').forEach(el => {
+      el.textContent = `₹${rates.gold22k.toLocaleString('en-IN')}/g`;
+      if (tickMeta.direction === 'up') {
+        el.classList.add('tick-glow-green');
+        setTimeout(() => el.classList.remove('tick-glow-green'), 850);
+      } else if (tickMeta.direction === 'down') {
+        el.classList.add('tick-glow-red');
+        setTimeout(() => el.classList.remove('tick-glow-red'), 850);
+      }
+    });
+
+    // 18K values
+    document.querySelectorAll('.ticker-val-18k').forEach(el => {
+      el.textContent = `₹${rates.gold18k.toLocaleString('en-IN')}/g`;
+    });
+
+    // Silver values
+    document.querySelectorAll('.ticker-val-silver').forEach(el => {
+      el.textContent = `₹${rates.silver.toFixed(1)}/g`;
+    });
+
+    // Net Change badge
+    const isUp = rates.change24k >= 0;
+    document.querySelectorAll('.ticker-change-badge').forEach(el => {
+      el.className = `ticker-change-badge ${isUp ? 'ticker-up' : 'ticker-down'}`;
+      el.textContent = `${isUp ? '▲ +' : '▼ '}₹${Math.abs(rates.change24k)} (${isUp ? '+' : ''}${rates.changePercent24k}%)`;
+    });
+
+    // Mobile drawer rates snapshot
+    const mobileSnapshot = document.getElementById('mobile-drawer-rates-snapshot');
+    if (mobileSnapshot) {
+      mobileSnapshot.innerHTML = `MCX 22K Gold: <strong>₹${rates.gold22k.toLocaleString('en-IN')}/g</strong> | 24K: <strong>₹${rates.gold24k.toLocaleString('en-IN')}/g</strong>`;
+    }
+  });
+
+  // Ticker bar click opens Live MCX Bullion Terminal Modal
+  const tickerBar = document.getElementById('mcx-ticker-bar');
+  if (tickerBar) {
+    tickerBar.style.cursor = 'pointer';
+    tickerBar.addEventListener('click', () => {
+      openLiveMCXModal();
+    });
+  }
+  document.getElementById('mobile-drawer-rates-box')?.addEventListener('click', () => {
+    openLiveMCXModal();
+  });
 }

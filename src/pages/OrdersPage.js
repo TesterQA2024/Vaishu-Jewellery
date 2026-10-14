@@ -36,7 +36,7 @@ export async function renderOrdersPage(container, currentUser, onOpenAuthModal) 
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 1rem; margin-bottom: 1.5rem;">
                   <div>
                     <div style="font-size: 0.8rem; color: var(--gold-dark); font-weight: 700;">ORDER REFERENCE</div>
-                    <div style="font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: #fff;">${order.orderId}</div>
+                    <div style="font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: var(--text-main);">${order.orderId}</div>
                     <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">Placed on ${formatDate(order.createdAt)}</div>
                   </div>
 
@@ -57,25 +57,25 @@ export async function renderOrdersPage(container, currentUser, onOpenAuthModal) 
                     <!-- Step 1 -->
                     <div style="display: flex; flex-direction: column; align-items: center; gap: 0.35rem;">
                       <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--gold-gradient); color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">✓</div>
-                      <div style="font-size: 0.78rem; font-weight: 600; color: #fff;">Order Placed</div>
+                      <div style="font-size: 0.78rem; font-weight: 600; color: var(--text-main);">Order Placed</div>
                     </div>
 
                     <!-- Step 2 -->
                     <div style="display: flex; flex-direction: column; align-items: center; gap: 0.35rem;">
                       <div style="width: 32px; height: 32px; border-radius: 50%; background: ${['Under Crafting & Hallmarking', 'Insured Transit', 'Delivered'].includes(order.status) ? 'var(--gold-gradient)' : 'var(--bg-surface-elevated)'}; color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">${['Under Crafting & Hallmarking', 'Insured Transit', 'Delivered'].includes(order.status) ? '✓' : '2'}</div>
-                      <div style="font-size: 0.78rem; font-weight: 600; color: #fff;">BIS Hallmarking</div>
+                      <div style="font-size: 0.78rem; font-weight: 600; color: var(--text-main);">BIS Hallmarking</div>
                     </div>
 
                     <!-- Step 3 -->
                     <div style="display: flex; flex-direction: column; align-items: center; gap: 0.35rem;">
                       <div style="width: 32px; height: 32px; border-radius: 50%; background: ${['Insured Transit', 'Delivered'].includes(order.status) ? 'var(--gold-gradient)' : 'var(--bg-surface-elevated)'}; color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">${['Insured Transit', 'Delivered'].includes(order.status) ? '✓' : '3'}</div>
-                      <div style="font-size: 0.78rem; font-weight: 600; color: #fff;">Insured Transit</div>
+                      <div style="font-size: 0.78rem; font-weight: 600; color: var(--text-main);">Insured Transit</div>
                     </div>
 
                     <!-- Step 4 -->
                     <div style="display: flex; flex-direction: column; align-items: center; gap: 0.35rem;">
                       <div style="width: 32px; height: 32px; border-radius: 50%; background: ${order.status === 'Delivered' ? 'var(--gold-gradient)' : 'var(--bg-surface-elevated)'}; color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">${order.status === 'Delivered' ? '✓' : '4'}</div>
-                      <div style="font-size: 0.78rem; font-weight: 600; color: #fff;">Handover & OTP</div>
+                      <div style="font-size: 0.78rem; font-weight: 600; color: var(--text-main);">Handover & OTP</div>
                     </div>
                   </div>
                 </div>
@@ -90,7 +90,7 @@ export async function renderOrdersPage(container, currentUser, onOpenAuthModal) 
                           <div style="display: flex; align-items: center; gap: 0.75rem;">
                             <img src="${item.image}" alt="${item.name}" style="width: 48px; height: 48px; border-radius: var(--radius-sm); object-fit: cover;" />
                             <div>
-                              <div style="font-weight: 600; font-size: 0.9rem; color: #fff;">${item.name}</div>
+                              <div style="font-weight: 600; font-size: 0.9rem; color: var(--text-main);">${item.name}</div>
                               <div style="font-size: 0.75rem; color: var(--gold-dark);">${item.karat} • Size: ${item.selectedSize} × ${item.quantity}</div>
                             </div>
                           </div>
@@ -108,7 +108,7 @@ export async function renderOrdersPage(container, currentUser, onOpenAuthModal) 
                     <div><strong>Recipient:</strong> ${order.customerName} (${order.customerPhone})</div>
                     <div><strong>Address:</strong> ${order.shippingAddress.addressLine1}, ${order.shippingAddress.city}, ${order.shippingAddress.state} - ${order.shippingAddress.pincode}</div>
                     <div><strong>Insurance Policy:</strong> ${order.insurancePolicyNumber}</div>
-                    <div style="border-top: 1px solid var(--border-subtle); margin-top: 0.5rem; padding-top: 0.5rem; display: flex; justify-content: space-between; font-weight: 700; color: #fff; font-size: 0.95rem;">
+                    <div style="border-top: 1px solid var(--border-subtle); margin-top: 0.5rem; padding-top: 0.5rem; display: flex; justify-content: space-between; font-weight: 700; color: var(--text-main); font-size: 0.95rem;">
                       <span>Total Paid:</span>
                       <span style="color: var(--gold-bright); font-family: var(--font-serif);">${formatINR(order.payment.grandTotal)}</span>
                     </div>
